@@ -1,0 +1,8 @@
+## Interface: 50400
+## Title: Possibly
+## Notes: Possibly
+## Author: Tacos
+## SavedVariablesPerCharacter: PossiblyEngine_ConfigData
+## SavedVariables: PossiblyEngine_RotationData
+
+possibly.xml

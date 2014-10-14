@@ -59,6 +59,7 @@ PossiblyEngine.dsl.comparator = function(condition, target, condition_spell)
 
     if call_type == "number" then
       local value = condition_call
+      
       if compare_value == nil then
         evaluation = comparator_table[3]  == condition_call
       else
@@ -82,7 +83,6 @@ PossiblyEngine.dsl.comparator = function(condition, target, condition_spell)
     else
       evaluation = condition_call
     end
-
 
   else
     evaluation = PossiblyEngine.dsl.get(condition)(target, condition_spell)
@@ -230,6 +230,10 @@ PossiblyEngine.dsl.eval = function (condition, target, spell)
   return function ()
     return PossiblyEngine.dsl.get(condition)(target, spell)
   end
+end
+
+function peval(condition, target, spell)
+  return PossiblyEngine.dsl.get(condition)(target, spell)
 end
 
 PossiblyEngine.dsl.register = function (condition, evaluation)

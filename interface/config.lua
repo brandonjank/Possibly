@@ -135,7 +135,3 @@ PossiblyEngine.interface.config.build = function()
 
 
 end
-
-function PossiblyEngine.interface.init()
-  PossiblyEngine.interface.minimap.create()
-end

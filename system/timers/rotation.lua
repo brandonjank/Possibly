@@ -1,7 +1,24 @@
 -- PossiblyEngine Rotations - https://possiblyengine.com/
 -- Released under modified BSD, see attached LICENSE.
 
+local function resolveGround(spell, target)
+  if FireHack then
+    CastSpellByName(spell)
+    CastAtPosition(ObjectPosition(target))
+  else
+    local stickyValue = GetCVar("deselectOnClick")
+    SetCVar("deselectOnClick", "0")
+    CameraOrSelectOrMoveStart(1) -- this is unlocked
+    CastSpellByName(spell)
+    CameraOrSelectOrMoveStop(1) -- this isn't unlocked
+    SetCVar("deselectOnClick", "1")
+    SetCVar("deselectOnClick", stickyValue)
+  end
+end
+
 local GetSpellInfo = GetSpellInfo
+
+PossiblyEngine.current_spell = false
 
 PossiblyEngine.cycleTime = PossiblyEngine.cycleTime or 50
 
@@ -16,9 +33,8 @@ PossiblyEngine.cycle = function(skip_verify)
     and PossiblyEngine.module.player.specID
 
   if cycle or skip_verify then
-    local stickyValue = GetCVar("deselectOnClick")
+    
     local spell, target = false
-
 
     local queue = PossiblyEngine.module.queue.spellQueue
     if queue ~= nil and PossiblyEngine.parser.can_cast(queue) then
@@ -47,14 +63,13 @@ PossiblyEngine.cycle = function(skip_verify)
       end
 
       PossiblyEngine.buttons.icon('MasterToggle', icon)
+      PossiblyEngine.current_spell = name
 
       if target == "ground" then
-        CastSpellByName(name)
-        CastAtLocation(Target:GetLocation())
+        resolveGround(name, 'target')
       elseif string.sub(target, -7) == ".ground" then
         target = string.sub(target, 0, -8)
-        CastSpellByName(name)
-        CastAtLocation(GetObjectFromUnitID(target):GetLocation())
+        resolveGround(name, target)
       else
         if spellID == 110309 then
           RunMacroText("/target " .. target)
@@ -68,15 +83,15 @@ PossiblyEngine.cycle = function(skip_verify)
           PossiblyEngine.actionLog.insert('Spell Cast', name, icon, target or "target")
         end
       end
-	  
-	 -- if target ~= "ground" then
-        --PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on ( " .. UnitName((target or 'target')) .. " )", 'spell_cast')
-	 -- else
-        --PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on the ground!", 'spell_cast')
-     -- end
+
+      if target ~= "ground" then
+        PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on ( " .. UnitName((target or 'target')) or 'Unknown' .. " )", 'spell_cast')
+      else
+        PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on the ground!", 'spell_cast')
+      end
 
     end
-    SetCVar("deselectOnClick", stickyValue)
+    
   end
 end
 
@@ -94,7 +109,6 @@ PossiblyEngine.timer.register("oocrotation", function()
     and PossiblyEngine.rotation.activeOOCRotation ~= false
 
   if cycle then
-    local stickyValue = GetCVar("deselectOnClick")
     local spell, target = ''
     spell, target = PossiblyEngine.parser.table(PossiblyEngine.rotation.activeOOCRotation, 'player')
 
@@ -110,23 +124,14 @@ PossiblyEngine.timer.register("oocrotation", function()
         name, _, icon, _, _, _, _, _, _ = GetSpellInfo(spellID)
       end
 
-      if target ~= "ground" then
-        PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on ( " .. UnitName((target or 'target')) .. " )", 'spell_cast')
-      else
-        PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on the ground!", 'spell_cast')
-      end
-
       PossiblyEngine.buttons.icon('MasterToggle', icon)
+      PossiblyEngine.current_spell = name
 
       if target == "ground" then
-        SetCVar("deselectOnClick", "0")
-        CameraOrSelectOrMoveStart(1) -- this is unlocked
-        CastSpellByName(name)
-        CameraOrSelectOrMoveStop(1) -- this isn't unlocked
-        SetCVar("deselectOnClick", "1")
-        if icon then
-          PossiblyEngine.actionLog.insert('Ground Cast', name, icon, "ground")
-        end
+        resolveGround(name, 'target')
+      elseif string.sub(target, -7) == ".ground" then
+        target = string.sub(target, 0, -8)
+        resolveGround(name, target)
       else
         if spellID == 110309 then
           RunMacroText("/target " .. target)
@@ -140,7 +145,13 @@ PossiblyEngine.timer.register("oocrotation", function()
           PossiblyEngine.actionLog.insert('Spell Cast', name, icon, target)
         end
       end
+
+      if target ~= "ground" then
+        PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on ( " .. UnitName((target or 'target')) or 'Unknown' .. " )", 'spell_cast')
+      else
+        PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on the ground!", 'spell_cast')
+      end
+
     end
-    SetCVar("deselectOnClick", stickyValue)
   end
 end, PossiblyEngine.cycleTime)

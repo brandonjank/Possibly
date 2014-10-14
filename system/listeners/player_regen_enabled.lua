@@ -3,6 +3,4 @@
 
 PossiblyEngine.listener.register("PLAYER_REGEN_ENABLED", function(...)
   PossiblyEngine.module.player.combat = false
-  PossiblyEngine.module.combatTracker.cleanCT()
-  PossiblyEngine.interface.cleanCT()
 end)

@@ -110,10 +110,14 @@ function table.length(tbl)
 end
 
 function table.contains(tbl, n)
-  for _, v in pairs(haystack) do
+  for _, v in pairs(tbl) do
     if v == n then
       return true
     end
   end
   return false
+end
+
+function table.empty(tbl)
+  for i, _ in ipairs(tbl) do tbl[i] = nil end
 end

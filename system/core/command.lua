@@ -37,16 +37,3 @@ PossiblyEngine.command.register('pe', function(msg, box)
     PossiblyEngine.command.handlers['help']('help')
   end
 end)
-
-PossiblyEngine.command.register_handler({'init', 'initmacro', 'initmacros'}, function()
-  DeleteMacro("PE_Cycle");
-  DeleteMacro("PE_Toggle");
-  DeleteMacro("PE_Cooldowns");
-  DeleteMacro("PE_Interrupts");
-  DeleteMacro("PE_AoE");
-  CreateMacro("PE_Cycle", "achievement_Goblinhead", "/pe cycle");
-  CreateMacro("PE_Toggle", "achievement_Goblinhead", "/pe toggle");
-  CreateMacro("PE_Cooldowns", "Achievement_BG_winAB_underXminutes", "/pe cooldowns");
-  CreateMacro("PE_Interrupts", "Ability_Kick", "/pe interrupts");
-  CreateMacro("PE_AoE", "Ability_Druid_Starfall", "/pe aoe");
-end)

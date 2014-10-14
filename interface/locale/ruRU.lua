@@ -1,4 +1,4 @@
-﻿-- PossiblyEngine Rotations - [url=https://possiblyengine.com/]https://possiblyengine.com/[/url]
+-- PossiblyEngine Rotations - [url=https://possiblyengine.com/]https://possiblyengine.com/[/url]
 -- Released under modified BSD, see attached LICENSE.
 
 local pels = PossiblyEngine.locale.set

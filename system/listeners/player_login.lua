@@ -4,10 +4,6 @@
 PossiblyEngine.listener.register("PLAYER_LOGIN", function(...)
   PossiblyEngine.rotation.auto_unregister()
   PossiblyEngine.listener.trigger("PLAYER_SPECIALIZATION_CHANGED", "player")
-  -- if not PossiblyEngine.full then
-  --   PossiblyEngine.full_check()
-  -- end
-
   PossiblyEngine.interface.init()
   PossiblyEngine.module.player.init()
   PossiblyEngine.raid.build()

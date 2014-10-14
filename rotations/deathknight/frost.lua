@@ -1,9 +1,9 @@
 PossiblyEngine.condition.register('twohand', function(target)
-  return IsEquippedItemType("Two-Hand") == 1
+  return IsEquippedItemType("Two-Hand")
 end)
 
 PossiblyEngine.condition.register('onehand', function(target)
-  return IsEquippedItemType("One-Hand") == 1
+  return IsEquippedItemType("One-Hand")
 end)
 
 -- SPEC ID 251
@@ -20,11 +20,6 @@ PossiblyEngine.rotation.register(251, {
   }},
 
   -- Survival
-  { "!/cast Raise Dead\n/cast Death Pact", { 
-    "player.health < 35", "player.spell(Death Pact).cooldown", 
-    "player.spell(Raise Dead).cooldown", 
-    "player.spell.usable(Death Pact)" 
-  }},
   { "Icebound Fortitude", "player.health <= 45" },
   { "Anti-Magic Shell", "player.health <= 45" },
 
@@ -32,10 +27,10 @@ PossiblyEngine.rotation.register(251, {
   { "Mind Freeze", "modifier.interrupts" },
   { "Strangualte", {  "modifier.interrupts", "!modifier.last(Mind Freeze)" } },
 
-  { "Death and Decay", "modifier.shift", "ground" },
+  { "Defile", "modifier.shift", "ground" },
+  { "Chains of Ice", "modifier.control" },
 
   -- Cooldowns
-  { "Horn of Winter" },
   { "Pillar of Frost", "modifier.cooldowns" },
   { "Raise Dead", {
     "modifier.cooldowns",
@@ -49,48 +44,64 @@ PossiblyEngine.rotation.register(251, {
     "player.runes(frost).count = 0", 
     "player.runes(death).count = 0",
   }},
-  { "Anti-Magic Zone", "modifier.control", "player.ground" },
 
   -- Disease Control
+  { "Unholy Blight", "player.enemies(10) > 3" },
+  {{
+    {{
+      { "Plague Leech", "player.runes(unholy).count = 0" },
+      { "Plague Leech", "player.runes(frost).count = 0" },
+      { "Plague Leech", "player.runes(blood).count = 0" },
+    }, "player.spell(Outbreak).cooldown = 0" },
+    {{
+      { "Plague Leech", "player.runes(unholy).count = 0" },
+      { "Plague Leech", "player.runes(frost).count = 0" },
+      { "Plague Leech", "player.runes(blood).count = 0" },
+    }, "target.debuff(Blood Plague).duration < 6" },
+  } , {
+    "target.debuff(Blood Plague)",
+    "target.debuff(Frost Fever)"
+  }},
   { "Outbreak", {
     "target.debuff(Frost Fever).duration < 3", 
     "target.debuff(Blood Plague).duration < 3", 
   }, "target" },
   { "Howling Blast", "target.debuff(Frost Fever).duration < 3" },
   { "Plague Strike", "target.debuff(Blood Plague).duration < 3" },
+  { "Unholy Blight", (function() return UnitsAroundUnit('target', 10) >= 4 end) },
+
+  { "Death and Decay", "modifier.shift", "target.ground" },
 
   -- DW Rotation
   {{
 
     -- AoE
     {{
-      { "Unholy Blight" },
       { "Pestilence", "modifier.last(Outbreak)" },
       { "Pestilence", "modifier.last(Plague Strike)" },
       { "Howling Blast" },
       { "Frost Strike", "player.runicpower >= 75" },
-      { "Death and Decay", "player.runes(unholy).count = 1", "ground" },
+      { "Death and Decay", "target.ground" },
       { "Plague Strike", {
         "player.runes(unholy).count = 2",
         "player.spell(Death and Decay).cooldown",
       }},
       { "Frost Strike" },
-      { "Horn of Winter" },
     }, "modifier.multitarget" },
 
     -- Single Target
     {{
-      { "Death Strike", "player.buff(Dark Succor)" },
-      { "Death Strike", "player.health <= 65" },
       { "Frost Strike", "player.buff(Killing Machine)" },
       { "Frost Strike", "player.runicpower > 88" },
       { "Howling Blast", "player.runes(death).count > 1" },
       { "Howling Blast", "player.runes(frost).count > 1" },
-      { "Unholy Blight", "target.debuff(Frost Fever).duration < 3" },
-      { "Unholy Blight", "target.debuff(Blood Plague).duration < 3" },
+      --{ "Unholy Blight", "target.debuff(Frost Fever).duration < 3" },
+      --{ "Unholy Blight", "target.debuff(Blood Plague).duration < 3" },
       { "Soul Reaper", "target.health < 35" },
       { "Howling Blast", "player.buff(Freezing Fog)" },
       { "Frost Strike", "player.runicpower > 76" },
+      { "Death Strike", "player.buff(Dark Succor)" },
+      { "Death Strike", "player.health <= 65" },
       { "Obliterate", {
         "player.runes(unholy).count > 0",
         "!player.buff(Killing Machine)"
@@ -99,7 +110,6 @@ PossiblyEngine.rotation.register(251, {
       -- actions.single_target+=/frost_strike,if=talent.runic_empowerment.enabled&unholy=1
       -- actions.single_target+=/blood_tap,if=talent.blood_tap.enabled&(target.health.pct-3*(target.health.pct%target.time_to_die)>35|buff.blood_charge.stack>=8)
       { "Frost Strike", "player.runicpower >= 40" },
-      { "Horn of Winter" },
 
     }, "!modifier.multitarget" },
 
@@ -117,21 +127,19 @@ PossiblyEngine.rotation.register(251, {
         "!player.runes(frost).count == 2",
         "!player.runes(unholy).count == 2",
       }},
-      { "Unholy Blight" },
       { "Pestilence", {
         "target.debuff(Blood Plague) >= 28",
         "!modifier.last"
       }},
       { "Howling Blast" },
       { "Frost Strike", "player.runicpower >= 75" },
-      { "Death and Decay", "player.runes(unholy).count = 1", "target.ground" },
+      { "Defile", "modifier.shift", "ground" },
       { "Plague Strike", {
         "player.runes(unholy).count = 2",
         "player.spell(Death and Decay).cooldown",
       }},
       { "Frost Strike" },
-      { "Horn of Winter" },
-    }, "modifier.multitarget" },
+    }, "target.enemies(10) >= 4" },
 
     -- Single Target
     {{
@@ -151,22 +159,6 @@ PossiblyEngine.rotation.register(251, {
     }, "!modifier.multitarget" },
 
   }, "player.twohand" },
-
-  {{
-    {{
-      { "Plague Leech", "player.runes(unholy).count = 0" },
-      { "Plague Leech", "player.runes(frost).count = 0" },
-      { "Plague Leech", "player.runes(blood).count = 0" },
-    }, "player.spell(Outbreak).cooldown = 0" },
-    {{
-      { "Plague Leech", "player.runes(unholy).count = 0" },
-      { "Plague Leech", "player.runes(frost).count = 0" },
-      { "Plague Leech", "player.runes(blood).count = 0" },
-    }, "target.debuff(Blood Plague).duration < 6" },
-  } , {
-    "target.debuff(Blood Plague)",
-    "target.debuff(Frost Fever)",
-  }},
 
 },{
   { "Horn of Winter", "!player.buff(Horn of Winter)" },

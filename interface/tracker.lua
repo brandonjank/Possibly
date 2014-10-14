@@ -201,7 +201,7 @@ for i = 1, (max_tracking) do
   CombatTableUnit[i]:SetPoint("TOPLEFT", UnitTracker, "TOPLEFT", 0, position)
 
 end
-
+--[[
 PossiblyEngine.timer.register("updateCTHealthUI", function()
 
   local incombatwith = #PossiblyEngine.module.combatTracker.enemy
@@ -212,7 +212,7 @@ PossiblyEngine.timer.register("updateCTHealthUI", function()
   local totalCurrentHP = 0
   local totalDPS = 0
 
-  for guid, unit in pairs(PossiblyEngine.module.combatTracker.enemy) do
+  for guid, unit in ipairs(PossiblyEngine.module.combatTracker.enemy) do
 
     if unit.health and unit.health <= 1 then
       -- shits dead yo
@@ -270,8 +270,12 @@ PossiblyEngine.timer.register("updateCTHealthUI", function()
 
   end
 
-  local totalPercent = math.floor(((totalCurrentHP / totalHP) * 100))
-  local totalRemaining = math.floor(totalCurrentHP / 1000)
+  local totalPercent = 0
+  local totalRemaining = 0
+  if totalCurrentHP and totalHP and displayTotal then
+    totalPercent = math.floor(((totalCurrentHP / totalHP) * 100))
+    totalRemaining = math.floor(totalCurrentHP / 1000)
+  end
 
   if displayTotal then
     CombatTableUnit[1].unitName:SetText(pelg('all_units'))
@@ -286,7 +290,7 @@ PossiblyEngine.timer.register("updateCTHealthUI", function()
     CombatTableUnit[i].unitHealth:SetText('')
   end
 end, 100)
-
+]]
 PossiblyEngine.interface.cleanCT = function()
   for i = 1, max_tracking do
     CombatTableUnit[i]:SetValue(0)

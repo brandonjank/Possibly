@@ -162,7 +162,7 @@ end
 PossiblyEngine.buttons.setActive = function(name)
   if _G['PE_Buttons_'.. name] then
     _G['PE_Buttons_'.. name].checked = true
-    _G['PE_Buttons_'.. name]:SetChecked(1)
+    _G['PE_Buttons_'.. name]:SetChecked(true)
     _G['PE_Buttons_'..name.."HotKey"]:SetText('On')
     if _G['PE_Buttons_'.. name].customTheme then
       _G['PE_Buttons_'.. name].customTheme()
@@ -174,7 +174,7 @@ end
 PossiblyEngine.buttons.setInactive = function(name)
   if _G['PE_Buttons_'.. name] then
     _G['PE_Buttons_'.. name].checked = false
-    _G['PE_Buttons_'.. name]:SetChecked(0)
+    _G['PE_Buttons_'.. name]:SetChecked(false)
     _G['PE_Buttons_'..name.."HotKey"]:SetText('Off')
     if _G['PE_Buttons_'.. name].customTheme then
       _G['PE_Buttons_'.. name].customTheme()

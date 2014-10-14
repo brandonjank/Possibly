@@ -17,9 +17,6 @@ PossiblyEngine.listener.register("ADDON_LOADED", function(...)
   -- load our previous button states
   PossiblyEngine.buttons.loadStates()
 
-  -- update tracker state
-  UnitTracker.toggle(true)
-
   -- Turbo
   PossiblyEngine.config.read('pe_turbo', false)
 

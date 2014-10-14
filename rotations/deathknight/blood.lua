@@ -127,8 +127,8 @@ PossiblyEngine.rotation.register(250, {
 
     -- Buffs
   { "Horn of Winter", "!player.buff(Horn of Winter)" },
+  { "Path of Frost", "!player.buff(Path of Frost).any" },
   { "Bone Shield", "player.buff(Bone Shield).charges < 1" },
-  { "Bone Shield", "!player.buff(Bone Shield)" },
 
   -- Keybinds
   { "Army of the Dead", "modifier.alt" },

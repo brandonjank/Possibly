@@ -56,11 +56,6 @@ end)
 PossiblyEngine.command.register_help('aoe', pelg('multitarget_tooltip'))
 
 
-PossiblyEngine.command.register_handler({'ct', 'combattracker', 'ut', 'unittracker', 'tracker'}, function()
-  UnitTracker.toggle()
-end)
-PossiblyEngine.command.register_help('ct', pelg('help_ct'))
-
 PossiblyEngine.command.register_handler({'al', 'log', 'actionlog'}, function()
   PE_ActionLog:Show()
 end)
@@ -85,7 +80,6 @@ PossiblyEngine.command.register_handler({'turbo', 'godmode'}, function()
   end
 end)
 PossiblyEngine.command.register_help('turbo', pelg('help_turbo'))
-
 
 PossiblyEngine.command.register_handler({'bvt'}, function()
   local state = PossiblyEngine.config.toggle('buttonVisualText')

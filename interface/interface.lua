@@ -47,3 +47,7 @@ end)
 PossiblyEngine.timer.register('cycleLag', function(elapsed)
   PE_CycleLag.text:SetText(math.floor(elapsed * 1000) .. 'ms')
 end, 1000)
+
+function PossiblyEngine.interface.init()
+  PossiblyEngine.interface.minimap.create()
+end

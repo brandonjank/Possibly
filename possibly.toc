@@ -1,0 +1,8 @@
+## Interface: 60000
+## Title: Possibly
+## Notes: Possibly
+## Author: Phreaks Mom
+## SavedVariablesPerCharacter: PossiblyEngine_ConfigData
+## SavedVariables: PossiblyEngine_RotationData
+
+possibly.xml

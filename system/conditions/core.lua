@@ -302,13 +302,12 @@ end)
 PossiblyEngine.condition.register("id", function(target, id)
     local expectedID = tonumber(id)
     if expectedID and UnitID(target) == expectedID then
-    return true
+        return true
     end
-
     return false
 end)
 
-PossiblyEngine.condition.register("toggle", function(toggle, spell)
+PossiblyEngine.condition.register("toggle", function(toggle)
     return PossiblyEngine.condition["modifier.toggle"](toggle)
 end)
 
@@ -318,16 +317,16 @@ end)
 
 PossiblyEngine.condition.register("modifier.taunt", function()
     if PossiblyEngine.condition["modifier.toggle"]('taunt') then
-    if UnitThreatSituation("player", "target") then
-        local status = UnitThreatSituation("player", target)
-        return (status < 3)
-    end
-    return false
+        if UnitThreatSituation("player", "target") then
+            local status = UnitThreatSituation("player", "target")
+            return (status < 3)
+        end
+        return false
     end
     return false
 end)
 
-PossiblyEngine.condition.register("threat", function(target, spell)
+PossiblyEngine.condition.register("threat", function(target)
     if UnitThreatSituation("player", target) then
     local isTanking, status, scaledPercent, rawPercent, threatValue = UnitDetailedThreatSituation("player", target)
     return scaledPercent
@@ -335,7 +334,7 @@ PossiblyEngine.condition.register("threat", function(target, spell)
     return 0
 end)
 
-PossiblyEngine.condition.register("agro", function(target, spell)
+PossiblyEngine.condition.register("agro", function(target)
     if UnitThreatSituation(target) and UnitThreatSituation(target) >= 2 then
     return true
     end
@@ -343,18 +342,19 @@ PossiblyEngine.condition.register("agro", function(target, spell)
 end)
 
 
-PossiblyEngine.condition.register("balance.sun", function(target, spell)
+PossiblyEngine.condition.register("balance.sun", function()
     local direction = GetEclipseDirection()
     if direction == 'none' or direction == 'sun' then return true end
 end)
 
-PossiblyEngine.condition.register("balance.moon", function(target, spell)
+PossiblyEngine.condition.register("balance.moon", function()
     local direction = GetEclipseDirection()
     if direction == 'moon' then return true end
 end)
 
-PossiblyEngine.condition.register("moving", function(target, spell)
-    return GetUnitSpeed(target) ~= 0
+PossiblyEngine.condition.register("moving", function(target)
+    local speed, _ = GetUnitSpeed(target)
+    return speed ~= 0
 end)
 
 -- DK Power
@@ -496,7 +496,7 @@ PossiblyEngine.condition.register("modifier.last", function(target, spell)
     return PossiblyEngine.parser.lastCast == GetSpellName(spell)
 end)
 
-function Distance(a, b)
+local function Distance(a, b)
     local ax, ay, az = ObjectPosition(a)
     local bx, by, bz = ObjectPosition(b)
     local ab = (UnitCombatReach(a))
@@ -700,6 +700,11 @@ PossiblyEngine.condition.register("spell.range", function(target, spell)
     return spellIndex and IsSpellInRange(spellIndex, spellBook, target)
 end)
 
+PossiblyEngine.condition.register("talent", function(args)
+    local row, col = strsplit(",", args, 2)
+    return hasTalent(tonumber(row), tonumber(col))
+end)
+
 PossiblyEngine.condition.register("friend", function(target, spell)
     return ( UnitCanAttack("player", target) ~= 1 )
 end)
@@ -730,9 +735,18 @@ PossiblyEngine.condition.register("glyph", function(target, spell)
     return false
 end)
 
-PossiblyEngine.condition.register("range", function(target, range)
-    local minRange, maxRange = rangeCheck:GetRange(target)
-    return maxRange
+PossiblyEngine.condition.register("range", function(target)
+    return PossiblyEngine.condition["distance"](target)
+end)
+
+PossiblyEngine.condition.register("distance", function(target)
+    if FireHack then
+        return math.floor(Distance(target, 'player'))
+    else -- fall back to libRangeCheck
+        local minRange, maxRange = rangeCheck:GetRange(target)
+        print(minRange, maxRange)
+        return maxRange or minRange
+    end
 end)
 
 PossiblyEngine.condition.register("level", function(target, range)

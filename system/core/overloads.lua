@@ -41,6 +41,12 @@ function GetSpellName(spell)
   return spell
 end
 
+function hasTalent(row, col)
+  local group = GetActiveSpecGroup()
+  local talentId, talentName, icon, selected, active = GetTalentInfo(row, col, group)
+  return active and selected
+end
+
 function GetSpellBookIndex(spell)
   local spellName = GetSpellName(spell)
   if not spellName then return false end

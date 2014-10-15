@@ -23,8 +23,4 @@ PossiblyEngine.listener.register("ADDON_LOADED", function(...)
   -- Dynamic Cycle
   PossiblyEngine.config.read('pe_dynamic', false)
 
-  PossiblyEngine.version = 'Development Release'
-  if build then
-    PossiblyEngine.version = string.format('%s v%d (%s)', pelg('build'), build.version, build.commit)
-  end
 end)

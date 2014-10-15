@@ -56,7 +56,7 @@ end
 local function onEnter(self)
   GameTooltip:SetOwner( self, 'ANCHOR_BOTTOMLEFT')
   GameTooltip:AddLine('|cff' .. PossiblyEngine.addonColor .. PossiblyEngine.addonName.. '|r '.. PossiblyEngine.version)
-  GameTooltip:AddLine('|cff' .. PossiblyEngine.addonColor .. pelg('left_click') .. '|r ' .. pelg('open_config'))
+  --GameTooltip:AddLine('|cff' .. PossiblyEngine.addonColor .. pelg('left_click') .. '|r ' .. pelg('open_config'))
   GameTooltip:AddLine('|cff' .. PossiblyEngine.addonColor .. pelg('right_click') .. '|r ' .. pelg('unlock_buttons'))
   GameTooltip:AddLine('|cff' .. PossiblyEngine.addonColor .. pelg('drag') .. '|r ' ..  pelg('move_minimap'))
   GameTooltip:Show()

@@ -26,8 +26,8 @@ PossiblyEngine.cycle = function(skip_verify)
 
   local turbo = PossiblyEngine.config.read('pe_turbo', false)
   local cycle =
-    IsMounted() ~= 1
-    and UnitInVehicle("player") ~= 1
+    IsMounted() == false
+    and UnitInVehicle("player") == false
     and PossiblyEngine.module.player.combat
     and PossiblyEngine.config.read('button_states', 'MasterToggle', false)
     and PossiblyEngine.module.player.specID
@@ -96,14 +96,14 @@ PossiblyEngine.cycle = function(skip_verify)
 end
 
 PossiblyEngine.timer.register("rotation", function()
-    PossiblyEngine.cycle()
+  PossiblyEngine.cycle()
 end, PossiblyEngine.cycleTime)
 
-PossiblyEngine.timer.register("oocrotation", function()
+PossiblyEngine.ooc_cycle = function()
   local cycle =
-    IsMounted() ~= 1
-    and UnitInVehicle("player") ~= 1
-    and PossiblyEngine.module.player.combat ~= true
+    IsMounted() == false
+    and UnitInVehicle("player") == false
+    and not PossiblyEngine.module.player.combat
     and PossiblyEngine.config.read('button_states', 'MasterToggle', false)
     and PossiblyEngine.module.player.specID ~= 0
     and PossiblyEngine.rotation.activeOOCRotation ~= false
@@ -152,6 +152,13 @@ PossiblyEngine.timer.register("oocrotation", function()
         PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on the ground!", 'spell_cast')
       end
 
+      --soon... soon
+      --Purrmetheus.api:UpdateIntent("default", PossiblyEngine.ooc_cycle, name, nil, target or "target")
+
     end
   end
+end
+
+PossiblyEngine.timer.register("oocrotation", function()
+  PossiblyEngine.ooc_cycle()
 end, PossiblyEngine.cycleTime)

@@ -16,6 +16,8 @@ local player = {
 
 function player.updateSpec()
   local spec = GetSpecialization()
+  local name, classFileName, classID = UnitClass('player')
+  local color = RAID_CLASS_COLORS[classFileName]
   local specID, specName, _, specIcon = player.classID
   if spec then
     specID, specName, _, specIcon = GetSpecializationInfo(spec)
@@ -43,7 +45,7 @@ function player.updateSpec()
     player.specID = specID
     player.specName = specName and specName or player.className
 
-    PossiblyEngine.print(player.specName .. pelg('rotation_loaded'))
+    PossiblyEngine.print('|c' .. color.colorStr .. player.specName .. ' ' .. name .. '|r ' .. pelg('rotation_loaded'))
     PossiblyEngine.rotation.loadLastRotation()
   end
 end

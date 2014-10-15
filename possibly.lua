@@ -3,9 +3,10 @@
 
 PossiblyEngine = {
   addonName = "Possibly",
-  addonColor = "2277dd"
+  addonColor = "EE2200",
+  version = "6.0.2r3"
 }
 
 function PossiblyEngine.print(message)
-  print('|cFF'..PossiblyEngine.addonColor..'['..PossiblyEngine.addonName..']|r ' .. message)
+  print('|c00'..PossiblyEngine.addonColor..'['..PossiblyEngine.addonName..']|r ' .. message)
 end

@@ -12,7 +12,7 @@
   <Script file="external\LibDispellable-1.0\LibDispellable-1.0.lua" />
   <Script file="external\LibBoss-1.0\LibBoss-1.0.lua" />
 
-  <!-- lol -->
+  <!-- shebang -->
   <Script file="possibly.lua" />
   <Script file="build.lua" />
   <Script file="system\core\overloads.lua" />
@@ -96,5 +96,47 @@
   <Script file="system\listeners\player_regen_disabled.lua" />
   <Script file="system\listeners\ui_error_message.lua" />
   <Script file="system\listeners\lfg_proposal_show.lua" />
+
+  <!-- Rotations -->
+  <Script file="rotations\deathknight\blood.lua" />
+  <Script file="rotations\deathknight\frost.lua" />
+  <Script file="rotations\deathknight\unholy.lua" />
+  <Script file="rotations\druid\NewbDruid.lua" />
+  <Script file="rotations\druid\balance.lua" />
+  <Script file="rotations\druid\feral.lua" />
+  <Script file="rotations\druid\guardian.lua" />
+  <Script file="rotations\druid\restoration.lua" />
+  <Script file="rotations\hunter\NewbHunter.lua" />
+  <Script file="rotations\hunter\beastmastery.lua" />
+  <Script file="rotations\hunter\marksmanship.lua" />
+  <Script file="rotations\hunter\survival.lua" />
+  <Script file="rotations\mage\NewbMage.lua" />
+  <Script file="rotations\mage\arcane.lua" />
+  <Script file="rotations\mage\fire.lua" />
+  <Script file="rotations\mage\frost.lua" />
+  <Script file="rotations\monk\NewbMonk.lua" />
+  <Script file="rotations\monk\brewmaster.lua" />
+  <Script file="rotations\monk\windwalker.lua" />
+  <Script file="rotations\paladin\NewbPaladin.lua" />
+  <Script file="rotations\paladin\protection.lua" />
+  <Script file="rotations\paladin\retribution.lua" />
+  <Script file="rotations\priest\NewbPriest.lua" />
+  <Script file="rotations\priest\shadow.lua" />
+  <Script file="rotations\rogue\NewbRogue.lua" />
+  <Script file="rotations\rogue\assassination.lua" />
+  <Script file="rotations\rogue\combat.lua" />
+  <Script file="rotations\rogue\subtlety.lua" />
+  <Script file="rotations\shaman\NewbShaman.lua" />
+  <Script file="rotations\shaman\elemental.lua" />
+  <Script file="rotations\shaman\enhancement.lua" />
+  <Script file="rotations\shaman\restoration.lua" />
+  <Script file="rotations\warlock\NewbWarlock.lua" />
+  <Script file="rotations\warlock\affliction.lua" />
+  <Script file="rotations\warlock\demonology.lua" />
+  <Script file="rotations\warlock\destruction.lua" />
+  <Script file="rotations\warrior\NewbWarrior.lua" />
+  <Script file="rotations\warrior\arms.lua" />
+  <Script file="rotations\warrior\fury.lua" />
+  <Script file="rotations\warrior\protection.lua" />
 
 </Ui>

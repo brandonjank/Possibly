@@ -43,8 +43,13 @@ PossiblyEngine.turbo = {
   modifier = PossiblyEngine.config.read('turbo_modifier', 1.3)
 }
 
+local losFlags =  bit.bor(0x10, 0x100)
+
 PossiblyEngine.parser.can_cast =  function(spell, unit, stopCasting)
   local turbo = PossiblyEngine.config.read('pe_turbo', false)
+
+
+  -- works by canceling a cast just before it goes off. aka, clipping
   if turbo then
     -- Turbo Mode Engage
     local castEnds = select(6, UnitCastingInfo("player"))
@@ -59,6 +64,7 @@ PossiblyEngine.parser.can_cast =  function(spell, unit, stopCasting)
     end
   end
 
+  -- resolve units
   if spell == nil then return false end
   if unit == nil then
     unit = UnitExists("target") and "target" or "player"
@@ -67,6 +73,16 @@ PossiblyEngine.parser.can_cast =  function(spell, unit, stopCasting)
   if unit then
     if string.sub(unit, -7) == ".ground" then unit = nil end
   end
+
+  if unit ~= "player" and UnitExists(unit) and UnitIsVisible(unit) and FireHack then
+    local px, py, pz = ObjectPosition("player")
+    local ux, uy, uz = ObjectPosition(unit)
+    if TraceLine(px, py, pz+2.25, ux, uy, uz+2.25, losFlags) then
+      return false
+    end
+  end
+
+  -- check for spell
   local spellIndex, spellBook = GetSpellBookIndex(spell)
   if not spellIndex then
     return false
@@ -80,6 +96,8 @@ PossiblyEngine.parser.can_cast =  function(spell, unit, stopCasting)
   else
     spellId = spellIndex
   end
+
+  -- is spell usable
   local name, rank, icon, cost, isFunnel, powerType, castTime, minRange, maxRange
   local isUsable, notEnoughMana
   if spellBook ~= nil then

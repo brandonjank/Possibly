@@ -10,7 +10,6 @@ PossiblyEngine.rotation.register(250, {
 
   -- Defensives and Buffing
   { "Bone Shield", "player.buff(Bone Shield).charges < 1" },
-  { "Horn of Winter" },
 
   -- Battle Rez, Mouseover w/ Cooldowns Mod
   { "Raise Ally", {

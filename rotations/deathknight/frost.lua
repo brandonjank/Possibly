@@ -8,7 +8,7 @@ end)
 
 -- SPEC ID 251
 PossiblyEngine.rotation.register(251, {
-
+  
   -- Blood Tap
   {{
     { "Blood Tap", "player.runes(unholy).count = 0" },
@@ -69,7 +69,6 @@ PossiblyEngine.rotation.register(251, {
   { "Howling Blast", "target.debuff(Frost Fever).duration < 3" },
   { "Plague Strike", "target.debuff(Blood Plague).duration < 3" },
   { "Unholy Blight", (function() return UnitsAroundUnit('target', 10) >= 4 end) },
-
   { "Death and Decay", "modifier.shift", "target.ground" },
 
   -- DW Rotation
@@ -139,7 +138,7 @@ PossiblyEngine.rotation.register(251, {
         "player.spell(Death and Decay).cooldown",
       }},
       { "Frost Strike" },
-    }, "target.enemies(10) >= 4" },
+    }, "modifier.multitarget" },
 
     -- Single Target
     {{

@@ -1,24 +1,4 @@
 -- SPEC ID 252
-
-local function apTrack(unitID, spell)
-  if unitID == 'player' then
-    if spell == 'Outbreak' or spell == "Plague Strike" then
-      PE_UnholyOutbreakAP = UnitAttackPower('player')
-    end
-  end
-end
-PossiblyEngine.listener.register('UNIT_SPELLCAST_SENT', apTrack)
-
-PE_UnholyOutbreakAP = 0
-PossiblyEngine.library.register('unholy', {
-  outbreakAP = function()
-    if PE_UnholyOutbreakAP*1.1 < UnitAttackPower('player') then
-      return true
-    end
-    return false
-  end,
-})
-
 PossiblyEngine.rotation.register(252, {
 
   { "Raise Dead", "!pet.exists" },
@@ -32,10 +12,6 @@ PossiblyEngine.rotation.register(252, {
   { "Death Pact", "player.health <= 45" },
 
   -- start simcraft
-  --actions.single_target=outbreak,if=stat.attack_power>(dot.blood_plague.attack_power*1.1)&time>15&!(cooldown.unholy_blight.remains>79)
-  { "Outbreak", "@unholy.outbreakAP", "target" },
-  --actions.single_target+=/plague_strike,if=stat.attack_power>(dot.blood_plague.attack_power*1.1)&time>15&!(cooldown.unholy_blight.remains>79)
-  { "Plague Strike", "@unholy.outbreakAP", },
   --actions.single_target+=/blood_tap,if=talent.blood_tap.enabled&(buff.blood_charge.stack>10&runic_power>=32)
   { "Blood Tap", { "player.buff(Blood Charge).count >= 5", "player.runicpower >= 32" } },
   --actions.single_target+=/outbreak,if=dot.frost_fever.remains<3|dot.blood_plague.remains<3
@@ -72,8 +48,6 @@ PossiblyEngine.rotation.register(252, {
   { "Scourge Strike" },
   --actions.single_target+=/festering_strike
   { "Festering Strike" },
-  --actions.single_target+=/horn_of_winter
-  { "Horn of Winter" },
   --actions.single_target+=/death_coil
   { "Death Coil" },
   --actions.single_target+=/blood_tap,if=talent.blood_tap.enabled&buff.blood_charge.stack>=8

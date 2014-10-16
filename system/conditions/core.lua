@@ -446,11 +446,20 @@ PossiblyEngine.condition.register("runes", function(target, rune)
     return PossiblyEngine.condition["runes.count"](target, rune)
 end)
 
-PossiblyEngine.condition.register("health", function(target, spell)
+PossiblyEngine.condition.register("health", function(target)
     if UnitExists(target) then
         return math.floor((UnitHealth(target) / UnitHealthMax(target)) * 100)
     end
     return 0
+end)
+
+PossiblyEngine.condition.register("health.actual", function(target)
+	print('win')
+    return UnitHealth(target)
+end)
+
+PossiblyEngine.condition.register("health.max", function(target)
+    return UnitHealthMax(target)
 end)
 
 PossiblyEngine.condition.register("mana", function(target, spell)
@@ -497,12 +506,15 @@ PossiblyEngine.condition.register("modifier.last", function(target, spell)
 end)
 
 local function Distance(a, b)
-    local ax, ay, az = ObjectPosition(a)
-    local bx, by, bz = ObjectPosition(b)
-    local ab = (UnitCombatReach(a))
-    local bb = (UnitCombatReach(b))
-    local b = ab + bb
-    return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - b
+    if UnitExists(a) and UnitIsVisible(a) and UnitExists(b) and UnitIsVisible(b) then
+        local ax, ay, az = ObjectPosition(a)
+        local bx, by, bz = ObjectPosition(b)
+        local ab = (UnitCombatReach(a))
+        local bb = (UnitCombatReach(b))
+        local b = ab + bb
+        return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - b
+    end
+    return 0
 end
 
 function UnitsAroundUnit(unit, distance)
@@ -744,7 +756,6 @@ PossiblyEngine.condition.register("distance", function(target)
         return math.floor(Distance(target, 'player'))
     else -- fall back to libRangeCheck
         local minRange, maxRange = rangeCheck:GetRange(target)
-        print(minRange, maxRange)
         return maxRange or minRange
     end
 end)
@@ -762,14 +773,14 @@ PossiblyEngine.condition.register("time", function(target, range)
 end)
 
 PossiblyEngine.condition.register("deathin", function(target, range)
-    local guid = UnitGUID(target)
-    local name = GetUnitName(target)
-    if name == "Training Dummy" or name == "Raider's Training Dummy" then
-    return 99
-    end
-    if PossiblyEngine.module.combatTracker.enemy[guid] then
-    return PossiblyEngine.module.combatTracker.enemy[guid]['ttd'] or 0
-    end
+    --local guid = UnitGUID(target)
+    --local name = GetUnitName(target)
+    --if name == "Training Dummy" or name == "Raider's Training Dummy" then
+    --return 99
+    --end
+    --if PossiblyEngine.module.combatTracker.enemy[guid] then
+    --return PossiblyEngine.module.combatTracker.enemy[guid]['ttd'] or 0
+    --end
     return 0
 end)
 

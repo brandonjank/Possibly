@@ -67,12 +67,9 @@ PossiblyEngine.rotation.register(103, {
     "modifier.multitarget", 
     "target.debuff(Thrash).duration <= 1.5"
   }},
-
-  -- Debuffs
-  { "Faerie Fire", "!target.debuff(Weakened Armor)" },
   
   { "Faerie Swarm", { 
-    "!target.debuff(Weakened Armor)", 
+    "!target.debuff(Faerie Swarm)",
     "player.spell(106707).exists",
   }},
 

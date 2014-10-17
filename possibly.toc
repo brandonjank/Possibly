@@ -1,7 +1,7 @@
 ## Interface: 60000
 ## Title: Possibly
 ## Notes: Possibly
-## Author: Phreaks Mom
+## Author: Ben Phelps
 ## SavedVariablesPerCharacter: PossiblyEngine_ConfigData
 ## SavedVariables: PossiblyEngine_RotationData
 

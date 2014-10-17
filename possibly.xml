@@ -2,7 +2,7 @@
 ..\FrameXML\UI.xsd">
 
   <!-- external libs -->
-  <Script file="external\LibStub-1.0\LibStub.lua" />
+  <Script file="external\LibStub\LibStub.lua" />
   <Include file="external\CallbackHandler-1.0\CallbackHandler-1.0.xml" />
   <Script file="external\LibRangeCheck-2.0\LibRangeCheck-2.0.lua" />
   <Include file="external\AceConsole-3.0\AceConsole-3.0.xml" />

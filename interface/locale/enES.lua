@@ -5,7 +5,7 @@ local pels = PossiblyEngine.locale.set
 
 PossiblyEngine.locale.new('enES')
 
--- Buttons
+-- Button
 pels('toggle', 'Toggle')
 pels('toggle_tooltip', 'encender/apagar temporalmente esta rotacion.')
 pels('cooldowns', 'Cooldowns')

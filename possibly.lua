@@ -4,7 +4,7 @@
 PossiblyEngine = {
   addonName = "Possibly",
   addonColor = "EE2200",
-  version = "6.0.2r3"
+  version = "6.0.2r4"
 }
 
 function PossiblyEngine.print(message)

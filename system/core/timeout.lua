@@ -8,36 +8,30 @@ PossiblyEngine.timeout = {}
 local timeout = PossiblyEngine.timeout
 
 local timeouts = {}
+local frame = CreateFrame('Frame')
 
-local function onUpdate(self, elapsed)
+frame:SetScript('OnUpdate', function(self, elapsed)
   for name, struct in pairs(timeouts) do
-    if time() >= (struct.start + struct.timeout) then
-      struct.callback()
+    if GetTime() >= (struct.start + struct.timeout) then
+      if struct.callback then
+        struct.callback()
+      end
       timeouts[name] = nil
     end
   end
-end
+end)
 
-local frame = CreateFrame('Frame')
-frame:SetScript('OnUpdate', onUpdate);
-
-function timeout.set(_name, _callback, _timeout)
-  debug.print('Timeout Started: ' .. tostring(_name))
-  if not tonumber(_timeout) then
-    PossiblyEngine.print('Timer Error: ' .. tostring(_name) .. ' has no time period.')
-    return
-  end
-
-  timeouts[_name] = {
-    callback = _callback,
-    timeout = _timeout,
-    start = time()
+function timeout.set(name, timeout, callback)
+  timeouts[name] = {
+    callback = callback,
+    timeout = timeout,
+    start = GetTime()
   }
 end
 
-function timeout.check(_name)
-  if timeouts[_name] ~= nil then
-    return (time() - timeouts[_name].start)
+function timeout.check(name)
+  if timeouts[name] ~= nil then
+    return (GetTime() - timeouts[name].start)
   end
   return false
 end

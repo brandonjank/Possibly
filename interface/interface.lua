@@ -2,7 +2,6 @@
 -- Released under modified BSD, see attached LICENSE.
 
 PossiblyEngine.interface = {}
-
 -- Lag Timer stuff
 
 PE_CycleLag = CreateFrame("Frame", "PE_CycleLag", UIParent)

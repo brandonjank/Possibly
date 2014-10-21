@@ -3,17 +3,20 @@
 
 local function resolveGround(spell, target)
   if FireHack then
-    CastSpellByName(spell)
-    CastAtPosition(ObjectPosition(target))
-  else
-    local stickyValue = GetCVar("deselectOnClick")
-    SetCVar("deselectOnClick", "0")
-    CameraOrSelectOrMoveStart(1) -- this is unlocked
-    CastSpellByName(spell)
-    CameraOrSelectOrMoveStop(1) -- this isn't unlocked
-    SetCVar("deselectOnClick", "1")
-    SetCVar("deselectOnClick", stickyValue)
+    if UnitExists(target) then
+      CastSpellByName(spell)
+      CastAtPosition(ObjectPosition(target))
+      return
+    end
   end
+  -- fall back to mouse
+  local stickyValue = GetCVar("deselectOnClick")
+  SetCVar("deselectOnClick", "0")
+  CameraOrSelectOrMoveStart(1) -- this is unlocked
+  CastSpellByName(spell)
+  CameraOrSelectOrMoveStop(1) -- this isn't unlocked
+  SetCVar("deselectOnClick", "1")
+  SetCVar("deselectOnClick", stickyValue)
 end
 
 local GetSpellInfo = GetSpellInfo
@@ -84,8 +87,8 @@ PossiblyEngine.cycle = function(skip_verify)
         end
       end
 
-      if target ~= "ground" then
-        PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on ( " .. UnitName((target or 'target')) or 'Unknown' .. " )", 'spell_cast')
+      if target ~= "ground" and UnitExists(target or 'target') then
+        PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on ( " .. UnitName(target or 'target') .. " )", 'spell_cast')
       else
         PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on the ground!", 'spell_cast')
       end
@@ -146,8 +149,8 @@ PossiblyEngine.ooc_cycle = function()
         end
       end
 
-      if target ~= "ground" then
-        PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on ( " .. UnitName((target or 'target')) or 'Unknown' .. " )", 'spell_cast')
+      if target ~= "ground" and UnitExists(target or 'target') then
+        PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on ( " .. UnitName(target or 'target') .. " )", 'spell_cast')
       else
         PossiblyEngine.debug.print("Casting |T"..icon..":10:10|t ".. name .. " on the ground!", 'spell_cast')
       end

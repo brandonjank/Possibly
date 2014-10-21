@@ -1,8 +1,6 @@
 -- PossiblyEngine Rotations - https://possiblyengine.com/
 -- Released under modified BSD, see attached LICENSE.
 
-local AceGUI = LibStub("AceGUI-3.0")
-
 PossiblyEngine.buttons.create('MasterToggle', nil, function(self, button)
   if button == "LeftButton" then
     self.checked = not self.checked

@@ -1,7 +1,7 @@
 ## Interface: 60000
 ## Title: Possibly
 ## Notes: Possibly
-## Author: Turbo Flaps
+## Author: Flaps
 ## SavedVariablesPerCharacter: PossiblyEngine_ConfigData
 ## SavedVariables: PossiblyEngine_RotationData
 

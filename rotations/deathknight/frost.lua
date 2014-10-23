@@ -67,7 +67,7 @@ PossiblyEngine.rotation.register(251, {
   }, "target" },
   { "Howling Blast", "target.debuff(Frost Fever).duration < 3" },
   { "Plague Strike", { "target.debuff(Blood Plague).duration < 3", "player.runes(unholy).count >= 1" } },
-  { "Unholy Blight", (function() return UnitsAroundUnit('target', 10) >= 4 end) },
+  --{ "Unholy Blight", (function() return UnitsAroundUnit('target', 10) >= 4 end) },
   { "Death and Decay", "modifier.shift", "target.ground" },
 
   -- DW Rotation

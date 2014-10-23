@@ -357,6 +357,20 @@ PossiblyEngine.condition.register("moving", function(target)
     return speed ~= 0
 end)
 
+PossiblyEngine.condition.register("lastmoved", function(target)
+    if not PossiblyEngine.module.player.moving then
+        return GetTime() - PossiblyEngine.module.player.movingTime
+    end
+    return false
+end)
+
+PossiblyEngine.condition.register("movingfor", function(target)
+    if PossiblyEngine.module.player.moving then
+        return GetTime() - PossiblyEngine.module.player.movingTime
+    end
+    return false
+end)
+
 -- DK Power
 
 PossiblyEngine.condition.register("runicpower", function(target, spell)
@@ -869,12 +883,30 @@ end)
 PossiblyEngine.condition.register("vengeance", function(unit, spell)
     local vengeance = select(15, _G['UnitBuff']("player", GetSpellName(132365)))
     if not vengeance then
-    return 0
+        return 0
     end
-
     if spell then
-    return vengeance
+        return vengeance
     end
-
     return vengeance / UnitHealthMax("player") * 100
+end)
+
+PossiblyEngine.condition.register("area.enemies", function(unit, distance)
+    if UnitsAroundUnit then
+        local total = UnitsAroundUnit(unit, tonumber(distance))
+        return total
+    end
+    return 0
+end)
+
+PossiblyEngine.condition.register("ilevel", function(unit, _)
+    return math.floor(select(1,GetAverageItemLevel()))
+end)
+
+PossiblyEngine.condition.register("firehack", function(unit, _)
+    return FireHack or false
+end)
+
+PossiblyEngine.condition.register("offspring", function(unit, _)
+    return type(opos) == 'function' or false
 end)

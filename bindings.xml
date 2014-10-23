@@ -1,0 +1,14 @@
+<Bindings>
+    <Binding name="Possibly Toggle">
+        PossiblyEngine.buttons.toggle('MasterToggle')
+    </Binding>
+    <Binding name="Possibly Cooldowns">
+        PossiblyEngine.buttons.toggle('cooldowns')
+    </Binding>
+    <Binding name="Possibly AoE">
+        PossiblyEngine.buttons.toggle('multitarget')
+    </Binding>
+    <Binding name="Possibly Interrupts">
+        PossiblyEngine.buttons.toggle('interrupt')
+    </Binding>
+</Bindings>

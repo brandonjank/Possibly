@@ -1,24 +1,6 @@
 -- PossiblyEngine Rotations - https://possiblyengine.com/
 -- Released under modified BSD, see attached LICENSE.
 
-local function resolveGround(spell, target)
-  if FireHack then
-    if UnitExists(target) then
-      CastSpellByName(spell)
-      CastAtPosition(ObjectPosition(target))
-      return
-    end
-  end
-  -- fall back to mouse
-  local stickyValue = GetCVar("deselectOnClick")
-  SetCVar("deselectOnClick", "0")
-  CameraOrSelectOrMoveStart(1) -- this is unlocked
-  CastSpellByName(spell)
-  CameraOrSelectOrMoveStop(1) -- this isn't unlocked
-  SetCVar("deselectOnClick", "1")
-  SetCVar("deselectOnClick", stickyValue)
-end
-
 local GetSpellInfo = GetSpellInfo
 
 PossiblyEngine.current_spell = false
@@ -34,6 +16,7 @@ PossiblyEngine.cycle = function(skip_verify)
     and PossiblyEngine.module.player.combat
     and PossiblyEngine.config.read('button_states', 'MasterToggle', false)
     and PossiblyEngine.module.player.specID
+    and (PossiblyEngine.protected.unlocked or IsMacClient())
 
   if cycle or skip_verify then
     
@@ -69,18 +52,18 @@ PossiblyEngine.cycle = function(skip_verify)
       PossiblyEngine.current_spell = name
 
       if target == "ground" then
-        resolveGround(name, 'target')
+        CastGround(name, 'target')
       elseif string.sub(target, -7) == ".ground" then
         target = string.sub(target, 0, -8)
-        resolveGround(name, target)
+        CastGround(name, target)
       else
         if spellID == 110309 then
-          RunMacroText("/target " .. target)
+          Macro("/target " .. target)
           target = "target"
         end
-        CastSpellByName(name, target or "target")
+        Cast(name, target or "target")
         if spellID == 110309 then
-          RunMacroText("/targetlasttarget")
+          Macro("/targetlasttarget")
         end
         if icon then
           PossiblyEngine.actionLog.insert('Spell Cast', name, icon, target or "target")
@@ -110,6 +93,7 @@ PossiblyEngine.ooc_cycle = function()
     and PossiblyEngine.config.read('button_states', 'MasterToggle', false)
     and PossiblyEngine.module.player.specID ~= 0
     and PossiblyEngine.rotation.activeOOCRotation ~= false
+    and (PossiblyEngine.protected.unlocked or IsMacClient())
 
   if cycle then
     local spell, target = ''
@@ -131,18 +115,18 @@ PossiblyEngine.ooc_cycle = function()
       PossiblyEngine.current_spell = name
 
       if target == "ground" then
-        resolveGround(name, 'target')
+        CastGround(name, 'target')
       elseif string.sub(target, -7) == ".ground" then
         target = string.sub(target, 0, -8)
-        resolveGround(name, target)
+        CastGround(name, target)
       else
         if spellID == 110309 then
-          RunMacroText("/target " .. target)
+          Macro("/target " .. target)
           target = "target"
         end
-        CastSpellByName(name, target)
+        Cast(name, target)
         if spellID == 110309 then
-          RunMacroText("/targetlasttarget")
+          Macro("/targetlasttarget")
         end
         if icon then
           PossiblyEngine.actionLog.insert('Spell Cast', name, icon, target)
@@ -165,3 +149,12 @@ end
 PossiblyEngine.timer.register("oocrotation", function()
   PossiblyEngine.ooc_cycle()
 end, PossiblyEngine.cycleTime)
+
+
+PossiblyEngine.timer.register("detectUnlock", function()
+  if PossiblyEngine.config.read('button_states', 'MasterToggle', false) then
+    PossiblyEngine.protected.FireHack()
+    PossiblyEngine.protected.OffSpring()
+    PossiblyEngine.protected.Generic()
+  end
+end, 1000)

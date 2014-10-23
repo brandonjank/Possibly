@@ -1,7 +1,6 @@
 -- PossiblyEngine Rotations - https://possiblyengine.com/
 -- Released under modified BSD, see attached LICENSE.
---[[
-local band = bit.band
+
 
 local HostileEvents = {
         ['SWING_DAMAGE'] = true,
@@ -15,10 +14,12 @@ local HostileEvents = {
 
 PossiblyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
 
+	local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
+
+	--print(...)
 
 end)
 
 PossiblyEngine.listener.register("UPDATE_MOUSEOVER_UNIT", function(...)
 
 end)
-]]

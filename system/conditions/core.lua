@@ -746,16 +746,34 @@ PossiblyEngine.condition.register("time", function(target, range)
     return GetTime() - PossiblyEngine.module.player.combatTime
 end)
 
+
+local deathTrack = { }
 PossiblyEngine.condition.register("deathin", function(target, range)
-    --local guid = UnitGUID(target)
-    --local name = GetUnitName(target)
-    --if name == "Training Dummy" or name == "Raider's Training Dummy" then
-    --return 99
-    --end
-    --if PossiblyEngine.module.combatTracker.enemy[guid] then
-    --return PossiblyEngine.module.combatTracker.enemy[guid]['ttd'] or 0
-    --end
-    return 0
+    local guid = UnitGUID(target)
+    if deathTrack[target] and deathTrack[target].guid == guid then
+        local start = deathTrack[target].time
+        local currentHP = UnitHealth(target)
+        local maxHP = deathTrack[target].start
+        local diff = maxHP - currentHP
+        local dura = GetTime() - start
+        local hpps = diff / dura
+        local death = currentHP / hpps
+        if death == math.huge then
+            return 8675309
+        elseif death < 0 then
+            return 0
+        else
+            return death
+        end
+    elseif deathTrack[target] then
+        table.empty(deathTrack[target])
+    else
+        deathTrack[target] = { }
+    end
+    deathTrack[target].guid = guid
+    deathTrack[target].time = GetTime()
+    deathTrack[target].start = UnitHealth(target)
+    return 8675309
 end)
 
 PossiblyEngine.condition.register("ttd", function(target, range)

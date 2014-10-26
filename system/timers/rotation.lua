@@ -19,7 +19,7 @@ PossiblyEngine.cycle = function(skip_verify)
     and (PossiblyEngine.protected.unlocked or IsMacClient())
 
   if cycle or skip_verify then
-    
+
     local spell, target = false
 
     local queue = PossiblyEngine.module.queue.spellQueue
@@ -61,7 +61,16 @@ PossiblyEngine.cycle = function(skip_verify)
           Macro("/target " .. target)
           target = "target"
         end
-        Cast(name, target or "target")
+
+        -- some spells just won't cast normally, so we use macros
+        if spellID == 139139 then -- Insanity for spriests
+          Macro('/cast ' .. GetSpellName(15407))
+        elseif spellID == 642 then -- Divine Shield for Pallys
+          Macro('/cast ' .. GetSpellName(643))
+        else
+          Cast(name, target or "target")
+        end
+
         if spellID == 110309 then
           Macro("/targetlasttarget")
         end
@@ -77,7 +86,7 @@ PossiblyEngine.cycle = function(skip_verify)
       end
 
     end
-    
+
   end
 end
 

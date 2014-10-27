@@ -134,8 +134,6 @@ end
 
 PossiblyEngine.raid.lowestHP = function ()
   local lowestUnit = 'player'
-  if canHeal('focus') then lowestUnit = 'focus' end
-
   local lowest = 100
 
   for _, unit in pairs(PossiblyEngine.raid.roster) do
@@ -188,10 +186,6 @@ PossiblyEngine.raid.needsHealing = function (threshold)
 end
 
 PossiblyEngine.raid.tank = function ()
-  if canHeal('focus') then
-    return 'focus'
-  end
-
   local tank = 'player'
   local highestUnit
 

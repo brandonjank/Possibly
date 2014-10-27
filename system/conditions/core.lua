@@ -692,7 +692,7 @@ PossiblyEngine.condition.register("talent", function(args)
 end)
 
 PossiblyEngine.condition.register("friend", function(target, spell)
-    return ( UnitCanAttack("player", target) ~= 1 )
+    return ( not UnitCanAttack("player", target) )
 end)
 
 PossiblyEngine.condition.register("enemy", function(target, spell)

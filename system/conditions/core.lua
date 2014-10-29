@@ -361,8 +361,8 @@ local movingCache = { }
 
 PossiblyEngine.condition.register("lastmoved", function(target)
     if target == 'player' then
-        if not ProbablyEngine.module.player.moving then
-            return GetTime() - ProbablyEngine.module.player.movingTime
+        if not PossiblyEngine.module.player.moving then
+            return GetTime() - PossiblyEngine.module.player.movingTime
         end
         return false
     else
@@ -393,8 +393,8 @@ end)
 
 PossiblyEngine.condition.register("movingfor", function(target)
     if target == 'player' then
-        if ProbablyEngine.module.player.moving then
-            return GetTime() - ProbablyEngine.module.player.movingTime
+        if PossiblyEngine.module.player.moving then
+            return GetTime() - PossiblyEngine.module.player.movingTime
         end
         return false
     else

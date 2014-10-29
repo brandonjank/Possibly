@@ -91,6 +91,7 @@ function PossiblyEngine.protected.FireHack()
             if UnitExists(target) then
               CastSpellByName(spell)
               CastAtPosition(ObjectPosition(target))
+              CancelPendingSpell()
               return
             end
 
@@ -107,8 +108,6 @@ function PossiblyEngine.protected.FireHack()
                     end
                 end)
             end
-            
-
         end
 
         PossiblyEngine.protected.unlocked = true

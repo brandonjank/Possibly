@@ -151,6 +151,8 @@ PossiblyEngine.buttons.create = function(name, icon, callback, tooltipl1, toolti
 
   PossiblyEngine.buttons.count = PossiblyEngine.buttons.count + 1
 
+  ProbablyEngine.buttons.frame:SetWidth(ProbablyEngine.buttons.count * (ProbablyEngine.buttons.size+ProbablyEngine.buttons.padding))
+
 end
 
 PossiblyEngine.buttons.text = function(name, text)
@@ -245,4 +247,5 @@ PossiblyEngine.buttons.resetButtons = function ()
     end
     PossiblyEngine.buttons.count = table.length(PossiblyEngine.buttons.buttons)
   end
+  ProbablyEngine.buttons.frame:SetWidth(ProbablyEngine.buttons.count * (ProbablyEngine.buttons.size+ProbablyEngine.buttons.padding))
 end

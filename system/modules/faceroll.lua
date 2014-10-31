@@ -16,7 +16,7 @@ activeFrame.texture = activeFrame:CreateTexture()
 activeFrame.texture:SetTexture("Interface/TARGETINGFRAME/UI-RaidTargetingIcon_8")
 activeFrame.texture:SetVertexColor(0, 1, 0, 1)
 activeFrame.texture:SetAllPoints(activeFrame)
-activeFrame:SetFrameStrata(HIGH)
+activeFrame:SetFrameStrata('HIGH')
 activeFrame:Hide()
 
 local function showActiveSpell()

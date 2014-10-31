@@ -7,6 +7,8 @@ function PossiblyEngine.protected.OffSpring()
 
 	if oexecute then
 
+		PossiblyEngine.faceroll.rolling = false
+		
 		PossiblyEngine.pmethod = "OffSpring"
 
 		function Cast(spell, target)

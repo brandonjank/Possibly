@@ -6,6 +6,8 @@
 function PossiblyEngine.protected.FireHack()
 
     if FireHack then
+	
+		PossiblyEngine.faceroll.rolling = false
 
         local stickyValue = GetCVar("deselectOnClick")
 
@@ -110,6 +112,14 @@ function PossiblyEngine.protected.FireHack()
             end
         end
 		
+        function Macro(text)
+            return RunMacroText(text)
+        end
+
+        function UseItem(name, target)
+            return UseItemByName(name, target)
+        end
+
         function Cast(spell, target)
             if type(spell) == "number" then
                 CastSpellByID(spell, target)

@@ -7,6 +7,41 @@ PossiblyEngine.current_spell = false
 
 PossiblyEngine.cycleTime = PossiblyEngine.cycleTime or 50
 
+PossiblyEngine.faceroll.faceroll = function()
+  if PossiblyEngine.faceroll.rolling then
+    local spell, target
+    if PossiblyEngine.module.player.combat and PossiblyEngine.rotation.activeRotation then
+      spell, target = PossiblyEngine.parser.table(PossiblyEngine.rotation.activeRotation)
+    elseif not PossiblyEngine.module.player.combat and PossiblyEngine.rotation.activeOOCRotation then
+      spell, target = PossiblyEngine.parser.table(PossiblyEngine.rotation.activeOOCRotation, 'player')
+    end
+    
+    if spell then
+      local spellIndex, spellBook = GetSpellBookIndex(spell)
+      local spellID, name, icon
+      if spellBook ~= nil then
+        _, spellID = GetSpellBookItemInfo(spellIndex, spellBook)
+        name, _, icon, _, _, _, _, _, _ = GetSpellInfo(spellIndex, spellBook)
+      else
+        spellID = spellIndex
+        name, _, icon, _, _, _, _, _, _ = GetSpellInfo(spellID)
+      end
+      if UnitExists(target) or target == 'ground' or string.sub(target, -7) == ".ground" then
+        PossiblyEngine.buttons.icon('MasterToggle', icon)
+        PossiblyEngine.current_spell = name
+      else
+        PossiblyEngine.current_spell = false
+      end
+    else
+      PossiblyEngine.current_spell = false
+    end
+  end
+end
+
+PossiblyEngine.timer.register("faceroll", function()
+  PossiblyEngine.faceroll.faceroll()
+end, 50)
+
 PossiblyEngine.cycle = function(skip_verify)
 
   local turbo = PossiblyEngine.config.read('pe_turbo', false)
@@ -18,7 +53,7 @@ PossiblyEngine.cycle = function(skip_verify)
     and PossiblyEngine.module.player.specID
     and (PossiblyEngine.protected.unlocked or IsMacClient())
 
-  if cycle or skip_verify then
+  if cycle or skip_verify and PossiblyEngine.rotation.activeRotation then
 
     local spell, target = false
 
@@ -104,7 +139,7 @@ PossiblyEngine.ooc_cycle = function()
     and PossiblyEngine.rotation.activeOOCRotation ~= false
     and (PossiblyEngine.protected.unlocked or IsMacClient())
 
-  if cycle then
+  if cycle and PossiblyEngine.rotation.activeOOCRotation then
     local spell, target = ''
     spell, target = PossiblyEngine.parser.table(PossiblyEngine.rotation.activeOOCRotation, 'player')
 

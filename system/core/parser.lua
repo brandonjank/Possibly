@@ -141,8 +141,13 @@ PossiblyEngine.parser.can_cast =  function(spell, unit, stopCasting)
   if UnitBuff("player", GetSpellInfo(11392)) then return false end -- Invis
   if UnitBuff("player", GetSpellInfo(3680)) then return false end  -- L. Invis
 
-  if spellBook ~= nil and select(2, GetSpellCooldown(spellIndex, spellBook)) > 0 then return false end
-  if spellBook == nil and select(2, GetSpellCooldown(spellId)) > 0 then return false end
+  if not PossiblyEngine.faceroll.rolling then
+    if spellBook ~= nil and select(2, GetSpellCooldown(spellIndex, spellBook)) > 0 then return false end
+    if spellBook == nil and select(2, GetSpellCooldown(spellId)) > 0 then return false end
+  else
+    if spellBook ~= nil and select(2, GetSpellCooldown(spellIndex, spellBook)) > 1.5 then return false end
+    if spellBook == nil and select(2, GetSpellCooldown(spellId)) > 1.5 then return false end
+  end
 
   if spellBook == BOOKTYPE_PET then
     if not UnitExists('pet') then return false end

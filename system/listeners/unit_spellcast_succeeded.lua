@@ -18,3 +18,14 @@ PossiblyEngine.listener.register("UNIT_SPELLCAST_SUCCEEDED", function(...)
     PossiblyEngine.module.player.infront = true
   end
 end)
+
+PossiblyEngine.listener.register("visualCast", "UNIT_SPELLCAST_SUCCEEDED", function(...)
+  local activeFrame = PossiblyEngine.faceroll.activeFrame
+  local unitID, spell, rank, lineID, spellID = ...
+  if unitID == "player" then
+    if spell == PossiblyEngine.current_spell then
+      activeFrame:Hide()
+      PossiblyEngine.current_spell = false
+    end
+  end
+end)

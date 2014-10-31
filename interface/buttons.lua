@@ -201,18 +201,10 @@ PossiblyEngine.buttons.icon = function(name, icon)
 end
 
 PossiblyEngine.buttons.loadStates = function()
-
   if PossiblyEngine.config.read('uishown') then
-    if PossiblyEngine.config.read('uishown') then
-      PossiblyEngine.buttons.buttonFrame:Show()
-    else
-      PossiblyEngine.buttons.buttonFrame:Hide()
-    end
-  else
+	PossiblyEngine.buttons.frame:Hide()
     PossiblyEngine.buttons.buttonFrame:Show()
-    PossiblyEngine.config.write('uishown', true)
   end
-
   for name in pairs(PossiblyEngine.buttons.buttons) do
     local state = PossiblyEngine.config.read('button_states', name, false)
     if state == true then

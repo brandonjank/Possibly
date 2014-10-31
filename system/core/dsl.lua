@@ -18,7 +18,8 @@ PossiblyEngine.dsl.getConditionalSpell = function(dsl, spell)
 end
 
 PossiblyEngine.dsl.comparator = function(condition, target, condition_spell)
-
+  if not condition then return false end
+  
   local modify_not = false
 
   -- lol fuck off line 24...
@@ -59,7 +60,7 @@ PossiblyEngine.dsl.comparator = function(condition, target, condition_spell)
 
     if call_type == "number" then
       local value = condition_call
-      
+
       if compare_value == nil then
         evaluation = comparator_table[3]  == condition_call
       else

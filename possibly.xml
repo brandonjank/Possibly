@@ -103,6 +103,7 @@
   <Script file="system\listeners\lfg_proposal_show.lua" />
 
   <!-- Rotations -->
+  <Script file="rotations\shared\core.lua" />
   <Script file="rotations\deathknight\blood.lua" />
   <Script file="rotations\deathknight\frost.lua" />
   <Script file="rotations\deathknight\unholy.lua" />

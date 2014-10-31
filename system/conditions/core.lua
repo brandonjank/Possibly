@@ -797,7 +797,10 @@ PossiblyEngine.condition.register("combat", function(target, range)
 end)
 
 PossiblyEngine.condition.register("time", function(target, range)
-    return GetTime() - PossiblyEngine.module.player.combatTime
+    if PossiblyEngine.module.player.combatTime then
+        return GetTime() - PossiblyEngine.module.player.combatTime
+    end
+    return false
 end)
 
 

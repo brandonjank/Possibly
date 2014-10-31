@@ -1,19 +1,5 @@
 -- SPEC ID 264
 
-PossiblyEngine.library.register('coreHealing', {
-  needsHealing = function(percent, count)
-    return PossiblyEngine.raid.needsHealing(tonumber(percent)) >= count
-  end,
-  needsDispelled = function(spell)
-    for _, unit in pairs(PossiblyEngine.raid.roster) do
-      if UnitDebuff(unit.unit, spell) then
-        PossiblyEngine.dsl.parsedTarget = unit.unit
-        return true
-      end
-    end
-  end,
-})
-
 PossiblyEngine.rotation.register(264, {
 
   --------------------

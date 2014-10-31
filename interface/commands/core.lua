@@ -14,6 +14,16 @@ PossiblyEngine.command.register_handler({'version', 'ver', 'v'}, function()
 end)
 PossiblyEngine.command.register_help('version', pelg('help_version'))
 
+PossiblyEngine.command.register_handler({'toggleui', 'ui'}, function()
+  PossiblyEngine.config.write('uishown', not PossiblyEngine.config.read('uishown'))
+  if PossiblyEngine.config.read('uishown') then
+    PossiblyEngine.buttons.buttonFrame:Show()
+  else
+    PossiblyEngine.buttons.buttonFrame:Hide()
+  end
+end)
+PossiblyEngine.command.register_help('toggleui', 'Toggles the visibility of the user interface.')
+
 PossiblyEngine.command.register_handler({'help', '?', 'wat'}, function()
   PossiblyEngine.command.print('|cff' .. PossiblyEngine.addonColor .. 'PossiblyEngine |r' .. PossiblyEngine.version)
   for command, help in pairs(PossiblyEngine.command.help) do

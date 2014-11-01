@@ -7,6 +7,9 @@ PossiblyEngine.current_spell = false
 
 PossiblyEngine.cycleTime = PossiblyEngine.cycleTime or 50
 
+
+-- faceroll
+
 PossiblyEngine.faceroll.faceroll = function()
   if PossiblyEngine.faceroll.rolling then
     local spell, target
@@ -54,7 +57,7 @@ PossiblyEngine.cycle = function(skip_verify)
     and (PossiblyEngine.protected.unlocked or IsMacClient())
 
   if cycle or skip_verify and PossiblyEngine.rotation.activeRotation then
-
+    
     local spell, target = false
 
     local queue = PossiblyEngine.module.queue.spellQueue
@@ -100,8 +103,6 @@ PossiblyEngine.cycle = function(skip_verify)
         -- some spells just won't cast normally, so we use macros
         if spellID == 139139 then -- Insanity for spriests
           Macro('/cast ' .. GetSpellName(15407))
-        elseif spellID == 642 then -- Divine Shield for Pallys
-          Macro('/cast ' .. GetSpellName(643))
         else
           Cast(name, target or "target")
         end
@@ -121,7 +122,7 @@ PossiblyEngine.cycle = function(skip_verify)
       end
 
     end
-
+    
   end
 end
 

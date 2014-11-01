@@ -3,40 +3,34 @@
 
 -- Functions that require FireHack
 
--- Added the loot while mounted hack.
--- Added ObjectIsType.
--- Added Zoom Hack
-
 function PossiblyEngine.protected.FireHack()
 
     if FireHack then
 
-		PossiblyEngine.faceroll.rolling = false
+        PossiblyEngine.faceroll.rolling = false
 
         local stickyValue = GetCVar("deselectOnClick")
 
         PossiblyEngine.pmethod = "FireHack"
 
         function IterateObjects(callback, ...)
-          local totalObjects = ObjectCount()
-          for i = 1, totalObjects do
-            local object = ObjectWithIndex(i)
-            if ObjectExists(object) and ObjectIsType(object, ...) then
-              callback(object)
+            local totalObjects = ObjectCount()
+            for i = 1, totalObjects do
+                local object = ObjectWithIndex(i)
+                if ObjectExists(object) and ObjectIsType(object, ...) then
+                    callback(object)
+                end
             end
-          end
         end
 
         function ObjectFromUnitID(unit)
             local unitGUID = UnitGUID(unit)
             local totalObjects = ObjectCount()
             for i = 1, totalObjects do
-              local object = ObjectWithIndex(i)
-              if ObjectExists(object) then
-                if UnitExists(object) and UnitGUID(object) == unitGUID then
-                  return object
+                local object = ObjectWithIndex(i)
+                if ObjectExists(object) and UnitExists(object) and UnitGUID(object) == unitGUID then
+                    return object
                 end
-              end
             end
             return false
         end
@@ -51,25 +45,25 @@ function PossiblyEngine.protected.FireHack()
         end
 
         function UnitsAroundUnit(unit, distance, checkCombat)
-          if UnitExists(unit) then
-            local total = 0
-            local totalObjects = ObjectCount()
-            for i = 1, totalObjects do
-              local object = ObjectWithIndex(i)
-              if ObjectExists(object) and ObjectIsType(object, ObjectTypes.Unit) then
-                local reaction = UnitReaction("player", object)
-                local combat = UnitAffectingCombat(object)
-                if reaction and reaction <= 4 and (checkCombat or combat) then
-                    if Distance(object, unit) <= distance then
-                        total = total + 1
+            if UnitExists(unit) then
+                local total = 0
+                local totalObjects = ObjectCount()
+                for i = 1, totalObjects do
+                    local object = ObjectWithIndex(i)
+                    if ObjectExists(object) and ObjectIsType(object, ObjectTypes.Unit) then
+                        local reaction = UnitReaction("player", object)
+                        local combat = UnitAffectingCombat(object)
+                        if reaction and reaction <= 4 and (checkCombat or combat) then
+                            if Distance(object, unit) <= distance then
+                                total = total + 1
+                            end
+                        end
                     end
                 end
-              end
+                return total
+            else
+                return 0
             end
-            return total
-          else
-              return 0
-          end
         end
 
         function FaceUnit(unit)
@@ -102,7 +96,6 @@ function PossiblyEngine.protected.FireHack()
               CancelPendingSpell()
               return
             end
-
             if not PossiblyEngine.timeout.check('groundCast') then
                 PossiblyEngine.timeout.set('groundCast', 0.05, function()
                     Cast(spell)

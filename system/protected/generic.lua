@@ -13,7 +13,7 @@ function PossiblyEngine.protected.Generic()
 			PossiblyEngine.protected.method = "generic"
 			PossiblyEngine.timer.unregister('detectUnlock')
 			PossiblyEngine.print('Detected a generic Lua unlock!  Some advanced features will not work.')
-			
+
 			function Cast(spell, target)
 				if type(spell) == "number" then
 					CastSpellByID(spell, target)
@@ -39,9 +39,10 @@ function PossiblyEngine.protected.Generic()
 			function UseItem(name, target)
 				return UseItemByName(name, target)
 			end
+
 		else
 			PossiblyEngine.faceroll.rolling = true
-			PossiblyEngine.faceroll.noticed = false	
+			PossiblyEngine.faceroll.noticed = false
 		end
 	elseif PossiblyEngine.faceroll.rolling and not PossiblyEngine.faceroll.noticed then
 		PossiblyEngine.print('No unlock found, now in FaceRoll mode, /reload your UI to check again.')

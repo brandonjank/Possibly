@@ -204,16 +204,16 @@ end)
 
 PossiblyEngine.condition.register("alive", function(target, spell)
     if UnitExists(target) and UnitHealth(target) > 0 then
-      return true
+    return true
     end
     return false
 end)
 
-PossiblyEngine.condition.register("dead", function (target)
+PossiblyEngine.condition.register('dead', function (target)
     return UnitIsDeadOrGhost(target)
 end)
 
-PossiblyEngine.condition.register("swimming", function ()
+PossiblyEngine.condition.register('swimming', function ()
     return IsSwimming()
 end)
 
@@ -221,11 +221,12 @@ PossiblyEngine.condition.register("target", function(target, spell)
     return ( UnitGUID(target .. "target") == UnitGUID(spell) )
 end)
 
-PossiblyEngine.condition.register("isPlayer", function(target)
-    return UnitIsUnit(target, "player")
-end)
+--[[
+PossiblyEngine.condition.register("player", function(target, spell)
+    return UnitName('player') == UnitName(target)
+end)--]]
 
-PossiblyEngine.condition.register("player", function(target)
+PossiblyEngine.condition.register("player", function (target)
     return UnitIsPlayer(target)
 end)
 
@@ -357,6 +358,7 @@ PossiblyEngine.condition.register("moving", function(target)
     return speed ~= 0
 end)
 
+
 local movingCache = { }
 
 PossiblyEngine.condition.register("lastmoved", function(target)
@@ -388,7 +390,7 @@ PossiblyEngine.condition.register("lastmoved", function(target)
             end
         end
         return false
-     end
+    end
 end)
 
 PossiblyEngine.condition.register("movingfor", function(target)
@@ -420,7 +422,7 @@ PossiblyEngine.condition.register("movingfor", function(target)
             end
         end
         return false
-     end
+    end
 end)
 
 -- DK Power
@@ -581,20 +583,20 @@ end)
 
 PossiblyEngine.condition.register("totem", function(target, totem)
     for index = 1, 4 do
-      local _, totemName, startTime, duration = GetTotemInfo(index)
-      if totemName == GetSpellName(totem) then
-          return true
-      end
+        local _, totemName, startTime, duration = GetTotemInfo(index)
+        if totemName == GetSpellName(totem) then
+            return true
+        end
     end
     return false
 end)
 
 PossiblyEngine.condition.register("totem.duration", function(target, totem)
     for index = 1, 4 do
-      local _, totemName, startTime, duration = GetTotemInfo(index)
-      if totemName == GetSpellName(totem) then
-          return floor(startTime + duration - GetTime())
-      end
+    local _, totemName, startTime, duration = GetTotemInfo(index)
+    if totemName == GetSpellName(totem) then
+        return floor(startTime + duration - GetTime())
+    end
     end
     return 0
 end)
@@ -602,9 +604,8 @@ end)
 PossiblyEngine.condition.register("mushrooms", function ()
     local count = 0
     for slot = 1, 3 do
-      if GetTotemInfo(slot) then
-          count = count + 1
-      end
+    if GetTotemInfo(slot) then
+        count = count + 1 end
     end
     return count
 end)

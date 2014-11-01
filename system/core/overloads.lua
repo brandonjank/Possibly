@@ -104,6 +104,7 @@ function UnitID(target)
 	local guid = UnitGUID(target)
 	if guid then
 		local type, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-", guid)
+
 		if type == "Player" then return tonumber(ServerID) end
 		if npc_id then return tonumber(npc_id) end
 	end

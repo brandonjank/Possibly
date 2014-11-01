@@ -149,6 +149,7 @@ PossiblyEngine.parser.can_cast =  function(spell, unit, stopCasting)
     if spellBook == nil and select(2, GetSpellCooldown(spellId)) > 1.5 then return false end
   end
 
+
   if spellBook == BOOKTYPE_PET then
     if not UnitExists('pet') then return false end
     if not unit then return true end

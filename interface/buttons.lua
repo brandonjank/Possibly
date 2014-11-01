@@ -202,7 +202,7 @@ end
 
 PossiblyEngine.buttons.loadStates = function()
   if PossiblyEngine.config.read('uishown') then
-	PossiblyEngine.buttons.frame:Hide()
+    PossiblyEngine.buttons.frame:Hide()
     PossiblyEngine.buttons.buttonFrame:Show()
   end
   for name in pairs(PossiblyEngine.buttons.buttons) do

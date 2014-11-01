@@ -4,7 +4,7 @@
 PossiblyEngine.interface = {}
 
 local DiesalTools = LibStub("DiesalTools-1.0")
-local DiesalStyle = LibStub("DiesalStyle-1.0")
+local DiesalStyle = LibStub("DiesalStyle-1.0") 
 local DiesalGUI = LibStub("DiesalGUI-1.0")
 local DiesalMenu = LibStub("DiesalMenu-1.0")
 local SharedMedia = LibStub("LibSharedMedia-3.0")
@@ -19,7 +19,7 @@ local test_config = {
 	config = {
 		{
 			type = 'header',
-			text = 'Example Header',
+			text = 'Example Header'
 		},
 		{ type = 'rule' },
 		{
@@ -33,7 +33,7 @@ local test_config = {
 		},
 		{
 			type = 'text',
-			text = "Example text block." 
+			text = "Example text block."
 		},
 		{
 			type = 'text',
@@ -48,8 +48,8 @@ local test_config = {
 		},
 		{
 			type = "spinner",
-+			text = "Simple Spinner",
-+			key = "spin1",
+			text = "Simple Spinner",
+			key = "spin1",
 			default = 25
 		},
 		{
@@ -73,9 +73,20 @@ local test_config = {
 					text = "Other Value",
 					key = "value2"
 				}
-			}
-		}
+			},
+			default = "value1"
+		},
+		{
+			type = "button",
+			text = "A Button",
+			width = 75,
+			height = 15,
+			callback = function()
+				print('It Works!')
+			end
+		},
 }}
+
 
 local buttonStyleSheet = {
 	['frame-color'] = {	
@@ -142,7 +153,7 @@ function buildElements(table, parent)
 			tmp:SetJustifyH('LEFT')
 			tmp:SetFont(SharedMedia:Fetch('font', 'Calibri Bold'), 13)
 			tmp:SetWidth(parent.content:GetWidth()-10)
-
+			
 			if element.align then
 				tmp:SetJustifyH(strupper(element.align))
 			end
@@ -174,7 +185,7 @@ function buildElements(table, parent)
 			tmp.texture = tmp:CreateTexture()
 			tmp.texture:SetTexture(0,0,0,0.5)
 			tmp.texture:SetAllPoints(tmp)
-			
+
 		elseif element.type == 'texture' then
 
 			local tmp = CreateFrame('Frame')
@@ -197,7 +208,7 @@ function buildElements(table, parent)
 			local tmp = DiesalGUI:Create('CheckBox')
 			tmp:SetParent(parent.content)
 			tmp:SetPoint("TOPLEFT", parent.content, "TOPLEFT", 5, offset)
-			
+
 			tmp:SetEventListener('OnValueChanged', function(this, event, checked)
 				PossiblyEngine.config.write(table.key .. '_' .. element.key, checked)
 			end)
@@ -288,7 +299,7 @@ function buildElements(table, parent)
 			tmp_text:SetFont(SharedMedia:Fetch('font', 'Calibri Bold'), 10)
 			tmp_text:SetJustifyH('LEFT')
 			tmp_text:SetWidth(parent.content:GetWidth()-10)
-			
+
 		elseif element.type == 'button' then
 
 			local tmp = DiesalGUI:Create("Button")
@@ -322,9 +333,9 @@ function buildElements(table, parent)
 			offset = offset + -20
 		else
 			offset = offset + -16
-
 		end
-
+		
+		
 	end
 
 end
@@ -352,11 +363,11 @@ function PossiblyEngine.interface.buildGUI(config)
 	if config.height then
 		parent:SetHeight(config.height)
 	end
-	
+
 	config.window = window
 
 	buildElements(config, window)
-	
+
 	return window
 
 end

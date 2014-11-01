@@ -61,7 +61,7 @@ PossiblyEngine.dsl.comparator = function(condition, target, condition_spell)
 
     if call_type == "number" then
       local value = condition_call
-      
+
       if compare_value == nil then
         evaluation = comparator_table[3]  == condition_call
       else
@@ -142,49 +142,29 @@ PossiblyEngine.dsl.parse = function(dsl, spell)
     unitId = "!" .. PossiblyEngine.raid.lowestHP()
     PossiblyEngine.dsl.parsedTarget = unitId
   elseif unitId == "tank" then
-  if UnitExists("focus") then
-    unitId = "focus"
-    PossiblyEngine.dsl.parsedTarget = unitId
-  else
      local possibleTank = PossiblyEngine.raid.tank()
      if possibleTank then
        unitId = possibleTank
        PossiblyEngine.dsl.parsedTarget = unitId
      end
-  end
   elseif unitId == "!tank" then
-    if UnitExists("focus") then
-      unitId = "!focus"
-      PossiblyEngine.dsl.parsedTarget = unitId
-    else
       local possibleTank = PossiblyEngine.raid.tank()
       if possibleTank then
         unitId =  "!" .. possibleTank
         PossiblyEngine.dsl.parsedTarget = unitId
       end
-    end
   elseif unitId == "tanktarget" then
-    if UnitExists("focustarget") then
-      unitId = "focustarget"
-      PossiblyEngine.dsl.parsedTarget = unitId
-    else
       local possibleTank = PossiblyEngine.raid.tank()
       if possibleTank then
         unitId = possibleTank .. "target"
         PossiblyEngine.dsl.parsedTarget = unitId
       end
-    end
   elseif unitId == "!tanktarget" then
-    if UnitExists("focustarget") then
-      unitId = "!focustarget"
-      PossiblyEngine.dsl.parsedTarget = unitId
-    else
       local possibleTank = PossiblyEngine.raid.tank()
       if possibleTank then
         unitId =  "!" .. possibleTank .. "target"
         PossiblyEngine.dsl.parsedTarget = unitId
       end
-    end
   end
 
   if unitId then table.insert(parse_table, unitId) end

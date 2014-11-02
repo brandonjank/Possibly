@@ -27,7 +27,7 @@ function config.read(key, ...)
   end
 
   if length <= 1 then
-    if data[key] then
+    if data[key] ~=nil then
       return data[key]
     elseif default ~= nil then
       data[key] = default

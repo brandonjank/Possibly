@@ -132,3 +132,8 @@ end
 function table.empty(tbl)
   for i, _ in ipairs(tbl) do tbl[i] = nil end
 end
+
+function math.round(num, idp)
+  local mult = 10^(idp or 0)
+  return math.floor(num * mult + 0.5) / mult
+end

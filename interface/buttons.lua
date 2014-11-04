@@ -201,7 +201,7 @@ PossiblyEngine.buttons.icon = function(name, icon)
 end
 
 PossiblyEngine.buttons.loadStates = function()
-  if PossiblyEngine.config.read('uishown') then
+  if PossiblyEngine.config.read('uishown', true) then
     PossiblyEngine.buttons.frame:Hide()
     PossiblyEngine.buttons.buttonFrame:Show()
   end

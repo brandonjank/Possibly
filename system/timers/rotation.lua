@@ -18,7 +18,7 @@ PossiblyEngine.faceroll.faceroll = function()
     elseif not PossiblyEngine.module.player.combat and PossiblyEngine.rotation.activeOOCRotation then
       spell, target = PossiblyEngine.parser.table(PossiblyEngine.rotation.activeOOCRotation, 'player')
     end
-    
+
     if spell then
       local spellIndex, spellBook = GetSpellBookIndex(spell)
       local spellID, name, icon
@@ -57,7 +57,7 @@ PossiblyEngine.cycle = function(skip_verify)
     and (PossiblyEngine.protected.unlocked or IsMacClient())
 
   if cycle or skip_verify and PossiblyEngine.rotation.activeRotation then
-    
+
     local spell, target = false
 
     local queue = PossiblyEngine.module.queue.spellQueue
@@ -122,7 +122,7 @@ PossiblyEngine.cycle = function(skip_verify)
       end
 
     end
-    
+
   end
 end
 

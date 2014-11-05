@@ -138,7 +138,7 @@ PossiblyEngine.raid.lowestHP = function ()
   local lowest = 100
 
   for _, unit in pairs(PossiblyEngine.raid.roster) do
-    if canHeal(unit.unit) and unit.health and unit.health < lowest then
+    if unit.health and unit.health < lowest and canHeal(unit.unit) then
       lowest = unit.health
       lowestUnit = unit.unit
     end

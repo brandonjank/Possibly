@@ -247,7 +247,8 @@ PossiblyEngine.parser.table = function(spellTable, fallBackTarget)
       target = PossiblyEngine.raid.lowestHP()
       if target == false then return end
     elseif target == "tank" then
-        target = PossiblyEngine.raid.tank()
+      target = PossiblyEngine.raid.tank()
+      if target == false then return end
     end
 
     if eventType == "string" or eventType == "number" then

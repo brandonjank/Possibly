@@ -165,8 +165,6 @@ PossiblyEngine.dsl.parse = function(dsl, spell)
         unitId =  "!" .. possibleTank .. "target"
         PossiblyEngine.dsl.parsedTarget = unitId
       end
-  elseif string.find(unitId, "party") then
-      PossiblyEngine.dsl.parsedTarget = unitId
   end
 
   if unitId then table.insert(parse_table, unitId) end

@@ -23,9 +23,9 @@ PossiblyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
 
 	local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
 
-	if sourceGUID == playerGUID then
-		PossiblyEngine.module.tracker.handleEvent(...)
-	end
+	--if sourceGUID == playerGUID then
+	--	PossiblyEngine.module.tracker.handleEvent(...)
+	--end
 
 end)
 

@@ -12,6 +12,7 @@
   <Script file="external\DiesalStyle-1.0\DiesalStyle-1.0.lua" />
   <Include file="external\DiesalGUI-1.0\DiesalGUI-1.0.xml" />
   <Include file="external\DiesalMenu-1.0\DiesalMenu-1.0.xml" />
+  <Script file="external\DiesalGUI-1.0\Objects\TableExplorer.lua" />
 
   <!-- shebang -->
   <Script file="possibly.lua" />
@@ -57,6 +58,7 @@
   <Script file="system\modules\player.lua" />
   <Script file="system\modules\pet.lua" />
   <Script file="system\modules\target.lua" />
+  <Script file="system\modules\tracker.lua" />
   <Script file="system\modules\keymanager.lua" />
   <Script file="system\modules\queue.lua" />
   <Script file="system\modules\config.lua" />

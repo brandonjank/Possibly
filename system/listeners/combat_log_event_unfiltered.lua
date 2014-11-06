@@ -12,11 +12,20 @@ local HostileEvents = {
         ['SPELL_MISSED'] = true
 }
 
+local playerGUID = false
+
 PossiblyEngine.listener.register("COMBAT_LOG_EVENT_UNFILTERED", function(...)
+
+	if not playerGUID then
+		local guid = UnitGUID("player")
+		if guid then playerGUID = guid end
+	end
 
 	local timeStamp, event, hideCaster, sourceGUID, sourceName, sourceFlags, sourceRaidFlags, destGUID, destName, destFlags, destRaidFlags = ...
 
-	--print(...)
+	if sourceGUID == playerGUID then
+		PossiblyEngine.module.tracker.handleEvent(...)
+	end
 
 end)
 

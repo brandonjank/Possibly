@@ -127,6 +127,94 @@ PossiblyEngine.condition.register("buff.duration", function(target, spell)
     return 0
 end)
 
+--[[
+PossiblyEngine.condition.register("aura.", function(target, spell)
+    local guid = UnitGUID(target)
+    if guid then
+        local unit = PossiblyEngine.module.tracker.units[guid]
+        if unit then
+            local aura = unit.auras[GetSpellID(spell)]
+            local track = false
+            if aura['damage'] and not aura['heal'] then
+                track = aura['damage']
+            elseif aura['heal'] and not aura['damage'] then
+                track = aura['heal']
+            end
+            if track then
+                return track.
+            end
+        end
+    end
+    return false
+end)
+]]
+
+local function smartQueryTracker(target, spell, key)
+    local guid = UnitGUID(target)
+    if guid then
+        local unit = PossiblyEngine.module.tracker.units[guid]
+        if unit then
+            local aura = unit.auras[GetSpellID(spell)]
+            if aura then
+                local track = false
+                if key == 'stacks' or key == 'time' then
+                    track = aura
+                else
+                    if aura['damage'] and not aura['heal'] then
+                        track = aura['damage']
+                    elseif aura['heal'] and not aura['damage'] then
+                        track = aura['heal']
+                    end
+                end
+                if track then
+                    return track[key]
+                end
+            end
+        end
+    end
+    return false
+end
+
+PossiblyEngine.condition.register("aura.crit", function(target, spell)
+    return smartQueryTracker(target, spell, 'crit')
+end)
+
+PossiblyEngine.condition.register("aura.crits", function(target, spell)
+    return smartQueryTracker(target, spell, 'crits')
+end)
+
+PossiblyEngine.condition.register("aura.avg", function(target, spell)
+    return smartQueryTracker(target, spell, 'avg')
+end)
+
+PossiblyEngine.condition.register("aura.last", function(target, spell)
+    return smartQueryTracker(target, spell, 'last')
+end)
+
+PossiblyEngine.condition.register("aura.low", function(target, spell)
+    return smartQueryTracker(target, spell, 'low')
+end)
+
+PossiblyEngine.condition.register("aura.high", function(target, spell)
+    return smartQueryTracker(target, spell, 'high')
+end)
+
+PossiblyEngine.condition.register("aura.total", function(target, spell)
+    return smartQueryTracker(target, spell, 'total')
+end)
+
+PossiblyEngine.condition.register("aura.stacks", function(target, spell)
+    return smartQueryTracker(target, spell, 'stacks')
+end)
+
+PossiblyEngine.condition.register("aura.time", function(target, spell)
+    return smartQueryTracker(target, spell, 'time')
+end)
+
+PossiblyEngine.condition.register("aura.uptime", function(target, spell)
+    return smartQueryTracker(target, spell, 'time') - GetTime()
+end)
+
 PossiblyEngine.condition.register("stance", function(target, spell)
     return GetShapeshiftForm()
 end)
@@ -936,20 +1024,44 @@ PossiblyEngine.condition.register("buffs.attackspeed", function(unit, _)
     return (GetRaidBuffTrayAuraInfo(4) ~= nil)
 end)
 
+PossiblyEngine.condition.register("buffs.haste", function(unit, _)
+    return (GetRaidBuffTrayAuraInfo(4) ~= nil)
+end)
+
 PossiblyEngine.condition.register("buffs.spellpower", function(unit, _)
     return (GetRaidBuffTrayAuraInfo(5) ~= nil)
 end)
 
-PossiblyEngine.condition.register("buffs.spellhaste", function(unit, _)
+PossiblyEngine.condition.register("buffs.crit", function(unit, _)
     return (GetRaidBuffTrayAuraInfo(6) ~= nil)
 end)
 
-PossiblyEngine.condition.register("buffs.crit", function(unit, _)
-    return (GetRaidBuffTrayAuraInfo(7) ~= nil)
+PossiblyEngine.condition.register("buffs.critical", function(unit, _)
+    return (GetRaidBuffTrayAuraInfo(6) ~= nil)
+end)
+
+PossiblyEngine.condition.register("buffs.criticalstrike", function(unit, _)
+    return (GetRaidBuffTrayAuraInfo(6) ~= nil)
 end)
 
 PossiblyEngine.condition.register("buffs.mastery", function(unit, _)
+    return (GetRaidBuffTrayAuraInfo(7) ~= nil)
+end)
+
+PossiblyEngine.condition.register("buffs.multistrike", function(unit, _)
     return (GetRaidBuffTrayAuraInfo(8) ~= nil)
+end)
+
+PossiblyEngine.condition.register("buffs.multi", function(unit, _)
+    return (GetRaidBuffTrayAuraInfo(8) ~= nil)
+end)
+
+PossiblyEngine.condition.register("buffs.vers", function(unit, _)
+    return (GetRaidBuffTrayAuraInfo(9) ~= nil)
+end)
+
+PossiblyEngine.condition.register("buffs.versatility", function(unit, _)
+    return (GetRaidBuffTrayAuraInfo(9) ~= nil)
 end)
 
 PossiblyEngine.condition.register("charmed", function(unit, _)

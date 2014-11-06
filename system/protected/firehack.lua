@@ -44,7 +44,14 @@ function PossiblyEngine.protected.FireHack()
             return 0
         end
 
+        local uau_cache_time = { }
+        local uau_cache_count = { }
+        local uau_cache_dura = 0.1
         function UnitsAroundUnit(unit, distance, checkCombat)
+            local uau_cache_time_c = uau_cache_time[unit..distance..tostring(checkCombat)]
+            if uau_cache_time_c and ((uau_cache_time_c + uau_cache_dura) > GetTime()) then
+                return uau_cache_time[unit..distance..tostring(checkCombat)]
+            end
             if UnitExists(unit) then
                 local total = 0
                 local totalObjects = ObjectCount()
@@ -60,6 +67,8 @@ function PossiblyEngine.protected.FireHack()
                         end
                     end
                 end
+                uau_cache_count[unit..distance..tostring(checkCombat)] = total
+                uau_cache_time[unit..distance..tostring(checkCombat)] = GetTime()
                 return total
             else
                 return 0

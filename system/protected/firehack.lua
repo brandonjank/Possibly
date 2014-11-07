@@ -50,7 +50,7 @@ function PossiblyEngine.protected.FireHack()
         function UnitsAroundUnit(unit, distance, checkCombat)
             local uau_cache_time_c = uau_cache_time[unit..distance..tostring(checkCombat)]
             if uau_cache_time_c and ((uau_cache_time_c + uau_cache_dura) > GetTime()) then
-                return uau_cache_time[unit..distance..tostring(checkCombat)]
+                return uau_cache_count[unit..distance..tostring(checkCombat)]
             end
             if UnitExists(unit) then
                 local total = 0

@@ -132,16 +132,25 @@ PossiblyEngine.raid.build = function ()
   end
 end
 
-PossiblyEngine.raid.lowestHP = function ()
+PossiblyEngine.raid.lowestHP = function (spell)
+  local name, rank, icon, cost, isFunnel, powerType, castTime, minRange, maxRange = GetSpellInfo(spell)
   local lowestUnit = 'player'
 
   local lowest = 100
+  local highest = 0
 
   for _, unit in pairs(PossiblyEngine.raid.roster) do
-    if unit.health and unit.health < lowest and canHeal(unit.unit) then
-      lowest = unit.health
-      lowestUnit = unit.unit
-    end
+  	if unit.health and unit.health < lowest and unit.health > highest and canHeal(unit.unit) then
+  		if name ~= nil then
+  			if IsSpellInRange(name, unit.unit) or UnitInRange(unit.unit) then
+  				lowest = unit.health
+  				lowestUnit = unit.unit
+  			end
+  		else
+  			lowest = unit.health
+  			lowestUnit = unit.unit
+  		end
+  	end
   end
 
   return lowestUnit
@@ -178,7 +187,7 @@ PossiblyEngine.raid.needsHealing = function (threshold)
   local unit
   for i = start, groupMembers do
     unit = PossiblyEngine.raid.roster[i]
-    if canHeal(unit.unit) and unit.health and unit.health <= threshold then
+    if canHeal(unit.unit) and unit.health and UnitInRange(unit.unit) and unit.health <= threshold then
       needsHealing = needsHealing + 1
     end
   end
@@ -186,29 +195,51 @@ PossiblyEngine.raid.needsHealing = function (threshold)
   return needsHealing
 end
 
-PossiblyEngine.raid.tank = function ()
-  local tank = 'player'
-  local highestUnit
+PossiblyEngine.raid.tank = function (spell)
+  local name, rank, icon, cost, isFunnel, powerType, castTime, minRange, maxRange = GetSpellInfo(spell)
+  local tank1 = 'player'
+  local health1 = 100
+  local prefix = (IsInRaid() and 'raid') or 'party'
+  local number = GetNumGroupMembers()
 
-  local lowest, highest = 100, 0
-  for _, unit in pairs(PossiblyEngine.raid.roster) do
-    if canHeal(unit.unit) then
-      if unit.role == 'TANK' then
-        if unit.health and unit.health < lowest then
-          lowest = unit.health
-          tank = unit.unit
-        end
-      else
-        if unit.maxHealth and unit.maxHealth > highest then
-          highest = unit.maxHealth
-          highestUnit = unit.unit
-        end
-      end
-    end
+  if GetNumGroupMembers() > 0 then
+  	for i = 0, number do
+  		if UnitGroupRolesAssigned(prefix .. i) == "TANK" then
+  			if name ~= nil then
+  				if IsSpellInRange(name, prefix .. i) or UnitInRange(prefix .. i) then
+  					health1 = UnitHealth(prefix .. i) / UnitHealthMax(prefix .. i) * 100
+  					tank1 = prefix .. i
+  				end
+  			else
+  				health1 = UnitHealth(prefix .. i) / UnitHealthMax(prefix .. i) * 100
+  				tank1 = prefix .. i
+  			end
+  		end
+  	end
+  end
+  local tank2 = 'player'
+  local health2 = 100
+
+  if GetNumGroupMembers() > 0 then
+  	for i = number, 0, -1 do
+  		if UnitGroupRolesAssigned(prefix .. i) == "TANK" then
+  			if name ~= nil then
+  				if IsSpellInRange(name, prefix .. i) or UnitInRange(prefix .. i) or maxRange == 0 then
+  					health2 = UnitHealth(prefix .. i) / UnitHealthMax(prefix .. i) * 100
+  					tank2 = prefix .. i
+  				end
+  			else
+  				health2 = UnitHealth(prefix .. i) / UnitHealthMax(prefix .. i) * 100
+  				tank2 = prefix .. i
+  			end
+  		end
+  	end
   end
 
-  if GetNumGroupMembers() > 0 and tank == 'player' then
-    tank = highestUnit
+  if health1 > health2 then
+  	tank = tank2
+  else
+  	tank = tank1
   end
 
   return tank

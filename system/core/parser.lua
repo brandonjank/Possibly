@@ -244,10 +244,10 @@ PossiblyEngine.parser.table = function(spellTable, fallBackTarget)
 
     -- healing?
     if target == "lowest" then
-      target = PossiblyEngine.raid.lowestHP()
+      target = PossiblyEngine.raid.lowestHP(event)
       if target == false then return end
     elseif target == "tank" then
-      target = PossiblyEngine.raid.tank()
+      target = PossiblyEngine.raid.tank(event)
       if target == false then return end
     end
 

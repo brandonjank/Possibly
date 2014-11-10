@@ -12,14 +12,14 @@ PE_ActionLog = CreateFrame("Frame", "PE_ActionLog", UIParent)
 local ActionLog = PE_ActionLog
 ActionLog.show = false
 ActionLog:SetFrameLevel(90)
-ActionLog:SetWidth(500)
+ActionLog:SetWidth(450)
 ActionLog:SetHeight(abs_height)
 ActionLog:SetPoint("CENTER", UIParent)
 ActionLog:SetMovable(true)
 ActionLog:EnableMouseWheel(true)
 
 local ActionLog_texture = ActionLog:CreateTexture(nil, "BACKGROUND")
-ActionLog_texture:SetTexture(0,0,0,0.9)
+ActionLog_texture:SetTexture(0,0,0,0.5)
 ActionLog_texture:SetAllPoints(ActionLog)
 ActionLog.texture = ActionLogHeader_texture
 
@@ -70,7 +70,7 @@ local ActionLogDivA = CreateFrame("Frame", nil , PE_ActionLog)
 ActionLogDivA:SetFrameLevel(99)
 ActionLogDivA:SetWidth(1)
 ActionLogDivA:SetHeight(abs_height)
-ActionLogDivA:SetPoint("LEFT", PE_ActionLog, 125, 0)
+--ActionLogDivA:SetPoint("LEFT", PE_ActionLog, 100, 0)
 ActionLogDivA:SetMovable(true)
 
 local ActionLogDivA_texture = ActionLogDivA:CreateTexture(nil, "BACKGROUND")
@@ -82,7 +82,7 @@ local ActionLogDivB = CreateFrame("Frame", nil , PE_ActionLog)
 ActionLogDivB:SetFrameLevel(99)
 ActionLogDivB:SetWidth(1)
 ActionLogDivB:SetHeight(abs_height)
-ActionLogDivB:SetPoint("LEFT", PE_ActionLog, 375, 0)
+--ActionLogDivB:SetPoint("LEFT", PE_ActionLog, 400, 0)
 ActionLogDivB:SetMovable(true)
 
 local ActionLogDivB_texture = ActionLogDivB:CreateTexture(nil, "BACKGROUND")
@@ -99,7 +99,7 @@ ActionLogHeader:SetHeight(log_height)
 ActionLogHeader:SetPoint("TOPLEFT", PE_ActionLog, "TOPLEFT")
 ActionLogHeader:SetPoint("TOPRIGHT", PE_ActionLog, "TOPRIGHT")
 local ActionLogHeader_texture = ActionLogHeader:CreateTexture(nil, "BACKGROUND")
-ActionLogHeader_texture:SetTexture(0.15,0.15,0.15,1)
+ActionLogHeader_texture:SetTexture(0.15,0.15,0.15,0.5)
 ActionLogHeader_texture:SetGradient("VERTICAL", 0.8,0.8,0.8, 0,0,0)
 ActionLogHeader_texture:SetAllPoints(ActionLogHeader)
 ActionLogHeader.texture = ActionLogHeader_texture
@@ -112,12 +112,12 @@ ActionLogHeader.statusTextA:SetText("Action")
 
 ActionLogHeader.statusTextB = ActionLogHeader:CreateFontString('PE_ActionLogHeaderText')
 ActionLogHeader.statusTextB:SetFont("Fonts\\ARIALN.TTF", 10)
-ActionLogHeader.statusTextB:SetPoint("LEFT", ActionLogHeader, 130, 0)
+ActionLogHeader.statusTextB:SetPoint("LEFT", ActionLogHeader, 205, 0)
 ActionLogHeader.statusTextB:SetText("Description")
 
 ActionLogHeader.statusTextC = ActionLogHeader:CreateFontString('PE_ActionLogHeaderText')
 ActionLogHeader.statusTextC:SetFont("Fonts\\ARIALN.TTF", 10)
-ActionLogHeader.statusTextC:SetPoint("LEFT", ActionLogHeader, 380, 0)
+ActionLogHeader.statusTextC:SetPoint("LEFT", ActionLogHeader, 405, 0)
 ActionLogHeader.statusTextC:SetText("Time")
 
 local ActionLogClose = CreateFrame("Button", "PE_TrackerClose", PE_ActionLog)
@@ -144,9 +144,9 @@ for i = 1, (log_items) do
   texture:SetAllPoints(ActionLogItem[i])
 
   if (i % 2) == 1 then
-    texture:SetTexture(0.15,0.15,0.15,1)
+    texture:SetTexture(0.15,0.15,0.15,0.3)
   else
-    texture:SetTexture(0.1,0.1,0.1,1)
+    texture:SetTexture(0.1,0.1,0.1,0.3)
   end
 
   ActionLogItem[i].texture = texture
@@ -167,13 +167,13 @@ for i = 1, (log_items) do
   ActionLogItem[i].itemB:SetFont("Fonts\\ARIALN.TTF", 10)
   ActionLogItem[i].itemB:SetShadowColor(0,0,0, 0.8)
   ActionLogItem[i].itemB:SetShadowOffset(-1,-1)
-  ActionLogItem[i].itemB:SetPoint("LEFT", ActionLogItem[i], 130, 0)
+  ActionLogItem[i].itemB:SetPoint("LEFT", ActionLogItem[i], 105, 0)
 
   ActionLogItem[i].itemC = ActionLogItem[i]:CreateFontString('itemA')
   ActionLogItem[i].itemC:SetFont("Fonts\\ARIALN.TTF", 10)
   ActionLogItem[i].itemC:SetShadowColor(0,0,0, 0.8)
   ActionLogItem[i].itemC:SetShadowOffset(-1,-1)
-  ActionLogItem[i].itemC:SetPoint("LEFT", ActionLogItem[i], 380, 0)
+  ActionLogItem[i].itemC:SetPoint("LEFT", ActionLogItem[i], 405, 0)
 
 
   local position = ((i * log_height) * -1)

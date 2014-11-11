@@ -431,14 +431,56 @@ PossiblyEngine.condition.register("agro", function(target)
 end)
 
 
-PossiblyEngine.condition.register("balance.sun", function()
+PossiblyEngine.condition.register("balance.sun", function(target)
     local direction = GetEclipseDirection()
     if direction == 'none' or direction == 'sun' then return true end
 end)
 
-PossiblyEngine.condition.register("balance.moon", function()
+PossiblyEngine.condition.register("balance.moon", function(target)
     local direction = GetEclipseDirection()
     if direction == 'moon' then return true end
+end)
+
+--[[
+PossiblyEngine.condition.register("balance.eclipsechange", function(target, spell)
+  -- Eclipse power goes from -100 to 100, and its use as solar or lunar power is determined by what buff is active on the player.
+  -- Buffs activate at -100 and 11 respectively and remain on the player until the power crosses the 0 threshold.
+  -- moon == moving toward Lunar Eclipse
+  -- sun == moving toward Solar Eclipse
+    if not spell then return false end
+    local direction = GetEclipseDirection()
+    if not direction or direction == "none" then return false end
+    local name, _, _, _, _, _, casttime, _, _ = GetSpellInfo(spell)
+    if name and casttime then casttime = casttime / 1000 else return false end
+    local eclipse = UnitPower("player", 8)
+    local timetozero = 0
+    local eclipsepersecond = 5
+
+    -- Euphoria Check
+    local group = GetActiveSpecGroup()
+    local _, _, _, selected, active = GetTalentInfo(7, 1, group)
+    if selected and active then
+      eclipsepersecond = 10
+    end
+
+    if direction == "moon" and eclipse > 0 then
+      timetozero = eclipse / eclipsepersecond
+    elseif direction == "moon" and eclipse <= 0 then
+      timetozero = ( 100 + ( 100 - math.abs(eclipse) ) ) / eclipsepersecond
+    elseif direction == "sun" and eclipse >= 0 then
+      timetozero = ( 100 + ( 100 - eclipse ) ) / eclipsepersecond
+    elseif direction == "sun" and eclipse < 0 then
+      timetozero = math.abs(eclipse) / eclipsepersecond
+    end
+
+    if timetozero > casttime then return true end
+    return false
+end)
+]]--
+
+PossiblyEngine.condition.register("balance.eclipse", function(target)
+    local eclipse = UnitPower("player", 8)
+    return eclipse
 end)
 
 PossiblyEngine.condition.register("moving", function(target)
@@ -446,9 +488,7 @@ PossiblyEngine.condition.register("moving", function(target)
     return speed ~= 0
 end)
 
-
 local movingCache = { }
-
 PossiblyEngine.condition.register("lastmoved", function(target)
     if target == 'player' then
         if not PossiblyEngine.module.player.moving then
@@ -610,7 +650,6 @@ PossiblyEngine.condition.register("health", function(target)
 end)
 
 PossiblyEngine.condition.register("health.actual", function(target)
-	print('win')
     return UnitHealth(target)
 end)
 
@@ -827,6 +866,14 @@ PossiblyEngine.condition.register("spell.range", function(target, spell)
     local spellIndex, spellBook = GetSpellBookIndex(spell)
     if not spellIndex then return false end
     return spellIndex and IsSpellInRange(spellIndex, spellBook, target)
+end)
+
+PossiblyEngine.condition.register("spell.castingtime", function(target, spell)
+    local name, _, _, _, _, _, castingTime, _, _ = GetSpellInfo(spell)
+    if name and castingTime then
+      return castingTime / 1000
+    end
+    return 9999
 end)
 
 PossiblyEngine.condition.register("talent", function(args)

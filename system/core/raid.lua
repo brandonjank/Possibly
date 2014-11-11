@@ -217,12 +217,13 @@ PossiblyEngine.raid.tank = function (spell)
   		end
   	end
   end
+
   local tank2 = 'player'
   local health2 = 100
 
   if GetNumGroupMembers() > 0 then
   	for i = number, 0, -1 do
-  		if UnitGroupRolesAssigned(prefix .. i) == "TANK" then
+  		if UnitGroupRolesAssigned(prefix .. i) == "TANK" and canHeal(prefix .. i) then
   			if name ~= nil then
   				if IsSpellInRange(name, prefix .. i) or UnitInRange(prefix .. i) or maxRange == 0 then
   					health2 = UnitHealth(prefix .. i) / UnitHealthMax(prefix .. i) * 100

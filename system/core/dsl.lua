@@ -47,7 +47,6 @@ PossiblyEngine.dsl.comparator = function(condition, target, condition_spell)
 
   local evaluation = false
   if #comparator_table == 3 then
-
     local compare_value = tonumber(comparator_table[3])
     local condition_call = PossiblyEngine.dsl.get(comparator_table[1])(target, condition_spell, compare_value)
     local call_type = type(condition_call)
@@ -63,7 +62,7 @@ PossiblyEngine.dsl.comparator = function(condition, target, condition_spell)
       local value = condition_call
 
       if compare_value == nil then
-        evaluation = comparator_table[3]  == condition_call
+        evaluation = comparator_table[3] == condition_call
       else
         if comparator_table[2] == '>=' then
           evaluation = value >= compare_value
@@ -135,32 +134,32 @@ PossiblyEngine.dsl.parse = function(dsl, spell)
 
   -- healing?
   if unitId == "lowest" then
-    unitId = PossiblyEngine.raid.lowestHP()
+    unitId = PossiblyEngine.raid.lowestHP(spell)
     if unitId == false then return false end
     PossiblyEngine.dsl.parsedTarget = unitId
   elseif unitId == "!lowest" then
-    unitId = "!" .. PossiblyEngine.raid.lowestHP()
+    unitId = "!" .. PossiblyEngine.raid.lowestHP(spell)
     PossiblyEngine.dsl.parsedTarget = unitId
   elseif unitId == "tank" then
-     local possibleTank = PossiblyEngine.raid.tank()
+     local possibleTank = PossiblyEngine.raid.tank(spell)
      if possibleTank then
        unitId = possibleTank
        PossiblyEngine.dsl.parsedTarget = unitId
      end
   elseif unitId == "!tank" then
-      local possibleTank = PossiblyEngine.raid.tank()
+      local possibleTank = PossiblyEngine.raid.tank(spell)
       if possibleTank then
         unitId =  "!" .. possibleTank
         PossiblyEngine.dsl.parsedTarget = unitId
       end
   elseif unitId == "tanktarget" then
-      local possibleTank = PossiblyEngine.raid.tank()
+      local possibleTank = PossiblyEngine.raid.tank(spell)
       if possibleTank then
         unitId = possibleTank .. "target"
         PossiblyEngine.dsl.parsedTarget = unitId
       end
   elseif unitId == "!tanktarget" then
-      local possibleTank = PossiblyEngine.raid.tank()
+      local possibleTank = PossiblyEngine.raid.tank(spell)
       if possibleTank then
         unitId =  "!" .. possibleTank .. "target"
         PossiblyEngine.dsl.parsedTarget = unitId

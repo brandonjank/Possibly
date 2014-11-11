@@ -433,12 +433,14 @@ end)
 
 PossiblyEngine.condition.register("balance.sun", function(target)
     local direction = GetEclipseDirection()
-    if direction == 'none' or direction == 'sun' then return true end
+    if direction == "sun" then return true end
+    return false
 end)
 
 PossiblyEngine.condition.register("balance.moon", function(target)
     local direction = GetEclipseDirection()
-    if direction == 'moon' then return true end
+    if direction == "moon" then return true end
+    return false
 end)
 
 --[[

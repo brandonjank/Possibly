@@ -111,18 +111,36 @@ PossiblyEngine.condition.register("debuff.count", function(target, spell)
     return 0
 end)
 
+PossiblyEngine.condition.register("debuff.remains", function(target, spell)
+  local debuff,_,expires,caster = UnitDebuff(target, spell)
+  if not not debuff and (caster == 'player' or caster == 'pet') then
+    return (expires - GetTime())
+  end
+  return 0
+end)
+
+-- TODO: should be the initial duration when cast.
 PossiblyEngine.condition.register("debuff.duration", function(target, spell)
     local debuff,_,expires,caster = UnitDebuff(target, spell)
     if not not debuff and (caster == 'player' or caster == 'pet') then
-    return (expires - GetTime())
+      return (expires - GetTime())
     end
     return 0
 end)
 
+PossiblyEngine.condition.register("buff.remains", function(target, spell)
+    local buff,_,expires,caster = UnitBuff(target, spell)
+    if not not buff and (caster == 'player' or caster == 'pet') then
+      return (expires - GetTime())
+    end
+    return 0
+end)
+
+-- TODO: should be the initial duration when cast.
 PossiblyEngine.condition.register("buff.duration", function(target, spell)
     local buff,_,expires,caster = UnitBuff(target, spell)
     if not not buff and (caster == 'player' or caster == 'pet') then
-    return (expires - GetTime())
+      return (expires - GetTime())
     end
     return 0
 end)
@@ -433,13 +451,13 @@ end)
 
 PossiblyEngine.condition.register("balance.sun", function(target)
     local direction = GetEclipseDirection()
-    if direction == "sun" then return true end
+    if direction and direction == "sun" then return true end
     return false
 end)
 
 PossiblyEngine.condition.register("balance.moon", function(target)
     local direction = GetEclipseDirection()
-    if direction == "moon" then return true end
+    if direction and direction == "moon" then return true end
     return false
 end)
 
@@ -722,10 +740,10 @@ end)
 
 PossiblyEngine.condition.register("totem.duration", function(target, totem)
     for index = 1, 4 do
-    local _, totemName, startTime, duration = GetTotemInfo(index)
-    if totemName == GetSpellName(totem) then
-        return floor(startTime + duration - GetTime())
-    end
+      local _, totemName, startTime, duration = GetTotemInfo(index)
+      if totemName == GetSpellName(totem) then
+          return floor(startTime + duration - GetTime())
+      end
     end
     return 0
 end)
@@ -827,7 +845,7 @@ PossiblyEngine.condition.register("spell.cooldown", function(target, spell)
     local start, duration, enabled = GetSpellCooldown(spell)
     if not start then return false end
     if start ~= 0 then
-    return (start + duration - GetTime())
+      return (start + duration - GetTime())
     end
     return 0
 end)
@@ -836,7 +854,7 @@ PossiblyEngine.condition.register("spell.recharge", function(target, spell)
     local charges, maxCharges, start, duration = GetSpellCharges(spell)
     if not start then return false end
     if start ~= 0 then
-    return (start + duration - GetTime())
+      return (start + duration - GetTime())
     end
     return 0
 end)
@@ -1050,11 +1068,21 @@ local heroismBuffs = { 32182, 90355, 80353, 2825, 146555 }
 
 PossiblyEngine.condition.register("hashero", function(unit, spell)
     for i = 1, #heroismBuffs do
-    if UnitBuff('player', GetSpellName(heroismBuffs[i])) then
-        return true
-    end
+      if UnitBuff('player', GetSpellName(heroismBuffs[i])) then
+          return true
+      end
     end
     return false
+end)
+
+PossiblyEngine.condition.register("hashero.remains", function(unit, spell)
+    for i = 1, #heroismBuffs do
+      local buff,_,expires,caster = UnitBuff('player', GetSpellName(heroismBuffs[i]))
+      if buff and expires then
+        return (expires - GetTime())
+      end
+    end
+    return 0
 end)
 
 PossiblyEngine.condition.register("buffs.stats", function(unit, _)

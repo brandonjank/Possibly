@@ -3,4 +3,5 @@
 
 PossiblyEngine.listener.register("PLAYER_REGEN_ENABLED", function(...)
   PossiblyEngine.module.player.combat = false
+  PossiblyEngine.module.player.oocombatTime = GetTime()
 end)

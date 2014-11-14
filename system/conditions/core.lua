@@ -959,6 +959,12 @@ PossiblyEngine.condition.register("time", function(target, range)
     return false
 end)
 
+PossiblyEngine.condition.register("ooctime", function(target, range)
+    if PossiblyEngine.module.player.oocombatTime then
+        return GetTime() - PossiblyEngine.module.player.oocombatTime
+    end
+    return false
+end)
 
 local deathTrack = { }
 PossiblyEngine.condition.register("deathin", function(target, range)

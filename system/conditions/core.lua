@@ -471,6 +471,7 @@ PossiblyEngine.condition.register("balance.eclipsechange", function(target, spel
   -- Buffs activate at -100 and 11 respectively and remain on the player until the power crosses the 0 threshold.
   -- moon == moving toward Lunar Eclipse
   -- sun == moving toward Solar Eclipse
+  -- /script print("Eclipse direction: "..GetEclipseDirection().."  Eclipse: "..UnitPower("player", 8))
     if not spell then return false end
     local direction = GetEclipseDirection()
     if not direction or direction == "none" then return false end
@@ -1192,4 +1193,15 @@ end)
 
 PossiblyEngine.condition.register("offspring", function(unit, _)
     return type(opos) == 'function' or false
+end)
+
+PossiblyEngine.condition.register("ininstance", function(target, type)
+    local inInstance, instanceType = IsInInstance()
+    if inInstance and not type then
+      return true
+    end
+    if inInstance and type and instanceType == type then
+      return true
+    end
+    return false
 end)

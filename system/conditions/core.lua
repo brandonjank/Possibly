@@ -774,8 +774,16 @@ local function checkCasting(target)
     return false
 end
 
+PossiblyEngine.condition.register("busy", function(target, spell)
+  local name, startTime, endTime, notInterruptible = checkCasting(target)
+  if name then
+    return true
+  end
+  return false
+end)
+
 PossiblyEngine.condition.register('casting.time', function(target, spell)
-    local name, startTime, endTime = checkCasting(target)
+    local name, startTime, endTime, notInterruptible = checkCasting(target)
     if name then return (endTime - startTime) / 1000 end
     return false
 end)

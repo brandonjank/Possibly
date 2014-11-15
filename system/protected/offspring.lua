@@ -41,7 +41,7 @@ function PossiblyEngine.protected.OffSpring()
 			if a ~= 'player' then
 				PossiblyEngine.print('OffSpring does not support LoS from an arbitrary unit, only player.')
 			end
-			return olos(b) == 0
+			return olos(b) == false
 		end
 
 		function Macro(text)

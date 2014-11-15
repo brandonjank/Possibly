@@ -49,7 +49,7 @@ PossiblyEngine.cycle = function(skip_verify)
 
   local turbo = PossiblyEngine.config.read('pe_turbo', false)
   local cycle =
-    IsMounted() == false
+    ( IsMounted() == false or UnitBuff("player", GetSpellInfo(164222)) )
     and UnitInVehicle("player") == false
     and PossiblyEngine.module.player.combat
     and PossiblyEngine.config.read('button_states', 'MasterToggle', false)
@@ -132,7 +132,7 @@ end, PossiblyEngine.cycleTime)
 
 PossiblyEngine.ooc_cycle = function()
   local cycle =
-    IsMounted() == false
+    ( IsMounted() == false or UnitBuff("player", GetSpellInfo(164222)) )
     and UnitInVehicle("player") == false
     and not PossiblyEngine.module.player.combat
     and PossiblyEngine.config.read('button_states', 'MasterToggle', false)

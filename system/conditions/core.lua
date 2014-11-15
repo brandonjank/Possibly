@@ -340,6 +340,10 @@ PossiblyEngine.condition.register("exists", function(target)
     return (UnitExists(target))
 end)
 
+PossiblyEngine.condition.register("modifier.looting", function()
+    return GetNumLootItems() > 0
+end)
+
 PossiblyEngine.condition.register("modifier.shift", function()
     return IsShiftKeyDown() and GetCurrentKeyBoardFocus() == nil
 end)
@@ -776,7 +780,7 @@ end
 
 PossiblyEngine.condition.register("busy", function(target, spell)
   local name, startTime, endTime, notInterruptible = checkCasting(target)
-  if name then
+  if name or GetNumLootItems() > 0 then
     return true
   end
   return false

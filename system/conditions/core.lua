@@ -1195,7 +1195,7 @@ PossiblyEngine.condition.register("offspring", function(unit, _)
     return type(opos) == 'function' or false
 end)
 
-PossiblyEngine.condition.register("ininstance", function(target, type)
+PossiblyEngine.condition.register("ininstance", function(unit, type)
     local inInstance, instanceType = IsInInstance()
     if inInstance and not type then
       return true
@@ -1204,4 +1204,18 @@ PossiblyEngine.condition.register("ininstance", function(target, type)
       return true
     end
     return false
+end)
+
+PossiblyEngine.condition.register("spell.wontcap", function(unit, spell)
+  local inactiveRegen, activeRegen = GetPowerRegen()
+  local name, _, _, castTime = GetSpellInfo(spell)
+  if name and inactiveRegen then
+    if UnitAffectingCombat(unit) then local regen = activeRegen else local regen = inactiveRegen end
+    if castTime == 0 then castTime = 1500 end
+    local cast_regen = castTime/1000 * regen
+    local power_type, _ = UnitPowerType(unit)
+    local power_deficit = UnitPowerMax(unit, power_type) - UnitPower(unit, power_type)
+    return cast_regen < power_deficit
+  end
+  return false
 end)

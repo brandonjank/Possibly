@@ -950,7 +950,7 @@ end)
 
 PossiblyEngine.condition.register("distance", function(target)
     if Distance then
-        return math.floor(Distance(target, 'player'))
+        return math.floor(Distance("player", target))
     else -- fall back to libRangeCheck
         local minRange, maxRange = rangeCheck:GetRange(target)
         return maxRange or minRange

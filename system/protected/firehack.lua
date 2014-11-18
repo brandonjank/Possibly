@@ -39,7 +39,13 @@ function PossiblyEngine.protected.FireHack()
             if UnitExists(a) and UnitIsVisible(a) and UnitExists(b) and UnitIsVisible(b) then
                 local ax, ay, az = ObjectPosition(a)
                 local bx, by, bz = ObjectPosition(b)
-                return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - ((UnitCombatReach(a)) + (UnitCombatReach(b)))
+                if a == "player" then
+                  return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - ((UnitCombatReach(a)) + (UnitBoundingRadius(b)))
+                elseif b == "player" then
+                  return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - ((UnitBoundingRadius(a)) + (UnitCombatReach(b)))
+                else
+                  return math.sqrt(((bx-ax)^2) + ((by-ay)^2) + ((bz-az)^2)) - ((UnitBoundingRadius(a)) + (UnitBoundingRadius(b)))
+                end
             end
             return 0
         end
@@ -61,7 +67,7 @@ function PossiblyEngine.protected.FireHack()
                         local reaction = UnitReaction("player", object)
                         local combat = UnitAffectingCombat(object)
                         if reaction and reaction <= 4 and (checkCombat or combat) then
-                            if Distance(object, unit) <= distance then
+                            if Distance(unit, object) <= distance then
                                 total = total + 1
                             end
                         end

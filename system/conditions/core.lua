@@ -730,7 +730,7 @@ PossiblyEngine.condition.register("enchant.mainhand", function()
 end)
 
 PossiblyEngine.condition.register("enchant.offhand", function()
-    return (select(4, GetWeaponEnchantInfo()) == 1)
+    return (select(5, GetWeaponEnchantInfo()) == 1)
 end)
 
 PossiblyEngine.condition.register("totem", function(target, totem)

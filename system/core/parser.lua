@@ -100,10 +100,10 @@ PossiblyEngine.parser.can_cast =  function(spell, unit, stopCasting)
   local isUsable, notEnoughMana
   if spellBook ~= nil then
     isUsable, notEnoughMana = IsUsableSpell(spellIndex, spellBook)
-    name, rank, icon, cost, isFunnel, powerType, castTime, minRange, maxRange = GetSpellInfo(spellIndex, spellBook)
+    name, rank, icon, castTime, minRange, maxRange = GetSpellInfo(spellIndex, spellBook)
   else
     isUsable, notEnoughMana = IsUsableSpell(spellId)
-    name, rank, icon, cost, isFunnel, powerType, castTime, minRange, maxRange = GetSpellInfo(spellId)
+    name, rank, icon, castTime, minRange, maxRange = GetSpellInfo(spellId)
   end
 
 

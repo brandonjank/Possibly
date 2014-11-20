@@ -24,10 +24,10 @@ PossiblyEngine.faceroll.faceroll = function()
       local spellID, name, icon
       if spellBook ~= nil then
         _, spellID = GetSpellBookItemInfo(spellIndex, spellBook)
-        name, _, icon, _, _, _, _, _, _ = GetSpellInfo(spellIndex, spellBook)
+        name, _, icon = GetSpellInfo(spellIndex, spellBook)
       else
         spellID = spellIndex
-        name, _, icon, _, _, _, _, _, _ = GetSpellInfo(spellID)
+        name, _, icon = GetSpellInfo(spellID)
       end
       if UnitExists(target) or target == 'ground' or string.sub(target, -7) == ".ground" then
         PossiblyEngine.buttons.icon('MasterToggle', icon)
@@ -80,10 +80,10 @@ PossiblyEngine.cycle = function(skip_verify)
       local spellID, name, icon
       if spellBook ~= nil then
         _, spellID = GetSpellBookItemInfo(spellIndex, spellBook)
-        name, _, icon, _, _, _, _, _, _ = GetSpellInfo(spellIndex, spellBook)
+        name, _, icon = GetSpellInfo(spellIndex, spellBook)
       else
         spellID = spellIndex
-        name, _, icon, _, _, _, _, _, _ = GetSpellInfo(spellID)
+        name, _, icon = GetSpellInfo(spellID)
       end
 
       PossiblyEngine.buttons.icon('MasterToggle', icon)
@@ -150,10 +150,10 @@ PossiblyEngine.ooc_cycle = function()
       local spellID, name, icon
       if spellBook ~= nil then
         _, spellID = GetSpellBookItemInfo(spellIndex, spellBook)
-        name, _, icon, _, _, _, _, _, _ = GetSpellInfo(spellIndex, spellBook)
+        name, _, icon = GetSpellInfo(spellIndex, spellBook)
       else
         spellID = spellIndex
-        name, _, icon, _, _, _, _, _, _ = GetSpellInfo(spellID)
+        name, _, icon = GetSpellInfo(spellID)
       end
 
       PossiblyEngine.buttons.icon('MasterToggle', icon)

@@ -8,7 +8,7 @@ local ignoreSpells = { 75 }
 PossiblyEngine.listener.register("UNIT_SPELLCAST_SUCCEEDED", function(...)
   local unitID, spell, rank, lineID, spellID = ...
   if unitID == "player" then
-    local name, _, icon, _, _, _, _, _, _ = GetSpellInfo(spell)
+    local name, _, icon = GetSpellInfo(spell)
     if PossiblyEngine.module.queue.spellQueue == name then
       PossiblyEngine.module.queue.spellQueue = nil
     end

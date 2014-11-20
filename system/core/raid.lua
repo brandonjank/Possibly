@@ -133,7 +133,7 @@ PossiblyEngine.raid.build = function ()
 end
 
 PossiblyEngine.raid.lowestHP = function (spell)
-  local name, rank, icon, cost, isFunnel, powerType, castTime, minRange, maxRange = GetSpellInfo(spell)
+  local name, rank, icon, castTime, minRange, maxRange = GetSpellInfo(spell)
   local lowestUnit = 'player'
 
   local lowest = 100
@@ -196,7 +196,7 @@ PossiblyEngine.raid.needsHealing = function (threshold)
 end
 
 PossiblyEngine.raid.tank = function (spell)
-  local name, rank, icon, cost, isFunnel, powerType, castTime, minRange, maxRange = GetSpellInfo(spell)
+  local name, rank, icon, castTime, minRange, maxRange = GetSpellInfo(spell)
   local tank1 = 'player'
   local health1 = 100
   local prefix = (IsInRaid() and 'raid') or 'party'

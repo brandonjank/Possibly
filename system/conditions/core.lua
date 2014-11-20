@@ -475,7 +475,7 @@ PossiblyEngine.condition.register("balance.eclipsechange", function(target, spel
     if not spell then return false end
     local direction = GetEclipseDirection()
     if not direction or direction == "none" then return false end
-    local name, _, _, _, _, _, casttime, _, _ = GetSpellInfo(spell)
+    local name, _, _, casttime = GetSpellInfo(spell)
     if name and casttime then casttime = casttime / 1000 else return false end
     local eclipse = UnitPower("player", 8)
     local timetozero = 0
@@ -902,7 +902,7 @@ PossiblyEngine.condition.register("spell.range", function(target, spell)
 end)
 
 PossiblyEngine.condition.register("spell.castingtime", function(target, spell)
-    local name, _, _, _, _, _, castingTime, _, _ = GetSpellInfo(spell)
+    local name, _, _, castingTime = GetSpellInfo(spell)
     if name and castingTime then
       return castingTime / 1000
     end

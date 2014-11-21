@@ -64,9 +64,11 @@ function PossiblyEngine.protected.FireHack()
                 for i = 1, totalObjects do
                     local object = ObjectWithIndex(i)
                     if ObjectExists(object) and ObjectIsType(object, ObjectTypes.Unit) then
-                        local reaction = UnitReaction("player", object)
+                        --local reaction = UnitReaction("player", object)
                         local combat = UnitAffectingCombat(object)
-                        if reaction and reaction <= 4 and (checkCombat or combat) then
+                        local canAttack = UnitCanAttack("player", object)
+                        local isDeadOrGhost = UnitIsDeadOrGhost(object)
+                        if canAttack and not isDeadOrGhost and (checkCombat or combat) then
                             if Distance(unit, object) <= distance then
                                 total = total + 1
                             end

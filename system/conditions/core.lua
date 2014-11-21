@@ -1268,7 +1268,7 @@ PossiblyEngine.condition.register("ininstance", function(unit, type)
     if inInstance and not type then
       return true
     end
-    if inInstance and type and instanceType == type then
+    if inInstance and type and string.lower(instanceType) == string.lower(type) then
       return true
     end
     return false
@@ -1286,4 +1286,8 @@ PossiblyEngine.condition.register("spell.wontcap", function(unit, spell)
     return cast_regen < power_deficit
   end
   return false
+end)
+
+PossiblyEngine.condition.register("indoors", function(unit)
+    return IsIndoors()
 end)

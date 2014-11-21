@@ -1298,3 +1298,12 @@ end)
 PossiblyEngine.condition.register("flying", function(unit)
     return IsFlying() -- Returns true if you are flying.
 end)
+
+PossiblyEngine.condition.register("isfriendlynpc", function(unit)
+    if unit and UnitExists(unit) then
+      if string.find(UnitGUID(unit), "Creature") and UnitReaction("player", unit) == 5 then
+        return true
+      end
+    end
+    return false
+end)

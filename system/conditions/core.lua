@@ -471,19 +471,22 @@ PossiblyEngine.condition.register("balance.eclipse", function(target)
 end)
 
 PossiblyEngine.condition.register("balance.lunarmax", function(target)
-    if UnitBuff("player", "Lunar Peak") then return 0 end
-    local direction = GetEclipseDirection()
-    local eclipse = UnitPower("player", 8)
-    if not direction or not eclipse or direction == "none" then return 99 end
     local eclipsepersecond = 10
-
-    -- Euphoria Check
     local group = GetActiveSpecGroup()
     local _, _, _, selected, active = GetTalentInfo(7, 1, group)
     if selected and active then
       eclipsepersecond = 20
     end
-
+    if UnitBuff("player", "Lunar Peak") then
+      if selected and active then
+        return 20
+      else
+        return 40
+      end
+    end
+    local direction = GetEclipseDirection()
+    local eclipse = UnitPower("player", 8)
+    if not direction or not eclipse or direction == "none" then return 99 end
     if direction == "moon" and eclipse < 0 then
       return (100 - abs(eclipse)) / eclipsepersecond
     elseif direction == "moon" and eclipse >= 0 then
@@ -493,24 +496,26 @@ PossiblyEngine.condition.register("balance.lunarmax", function(target)
     elseif direction == "sun" and eclipse >= 0 then
       return (200 + (100 - eclipse)) / eclipsepersecond
     end
-
     return 99
 end)
 
 PossiblyEngine.condition.register("balance.solarmax", function(target)
-    if UnitBuff("player", "Solar Peak") then return 0 end
-    local direction = GetEclipseDirection()
-    local eclipse = UnitPower("player", 8)
-    if not direction or not eclipse or direction == "none" then return 99 end
     local eclipsepersecond = 10
-
-    -- Euphoria Check
     local group = GetActiveSpecGroup()
     local _, _, _, selected, active = GetTalentInfo(7, 1, group)
     if selected and active then
       eclipsepersecond = 20
     end
-
+    if UnitBuff("player", "Solar Peak") then
+      if selected and active then
+        return 20
+      else
+        return 40
+      end
+    end
+    local direction = GetEclipseDirection()
+    local eclipse = UnitPower("player", 8)
+    if not direction or not eclipse or direction == "none" then return 99 end
     if direction == "sun" and eclipse < 0 then
       return (100 + abs(eclipse)) / eclipsepersecond
     elseif direction == "sun" and eclipse >= 0 then
@@ -520,8 +525,52 @@ PossiblyEngine.condition.register("balance.solarmax", function(target)
     elseif direction == "moon" and eclipse >= 0 then
       return (300 + eclipse) / eclipsepersecond
     end
-
     return 99
+end)
+
+PossiblyEngine.condition.register("balance.eclipsechange", function(target, spell)
+    local eclipsepersecond = 10
+    local group = GetActiveSpecGroup()
+    local _, _, _, selected, active = GetTalentInfo(7, 1, group)
+    if selected and active then
+      eclipsepersecond = 20
+    end
+    local timetozero = 20
+    local eclipse = UnitPower("player", 8)
+    if UnitBuff("player", "Solar Peak") or UnitBuff("player", "Lunar Peak") then
+      if selected and active then
+        timetozero = 10
+      end
+    else
+      local direction = GetEclipseDirection()
+      if not direction or not eclipse or direction == "none" then return false end
+      if direction == "sun" and eclipse < 0 then
+        timetozero = abs(eclipse) / eclipsepersecond
+      elseif direction == "sun" and eclipse >= 0 then
+        timetozero = (200 - eclipse) / eclipsepersecond
+      elseif direction == "moon" and eclipse < 0 then
+        timetozero = (200 - abs(eclipse)) / eclipsepersecond
+      elseif direction == "moon" and eclipse >= 0 then
+        timetozero = eclipse / eclipsepersecond
+      end
+    end
+    if spell then
+      local casttime = 1.5
+      local name, _, _, castingTime = GetSpellInfo(spell)
+      if name and castingTime then
+        casttime = castingTime / 1000
+      end
+      if spell == "Wrath" then
+        if (eclipse > 0 and timetozero > casttime) then
+          return true
+        end
+      elseif spell == "Starfire" then
+        if (eclipse < 0 and timetozero > casttime) then
+          return true
+        end
+      end
+    end
+    return false
 end)
 
 PossiblyEngine.condition.register("moving", function(target)
@@ -880,12 +929,11 @@ PossiblyEngine.condition.register("spell.cooldown", function(target, spell)
 end)
 
 PossiblyEngine.condition.register("spell.recharge", function(target, spell)
-    local charges, maxCharges, start, duration = GetSpellCharges(spell)
-    if not start then return false end
-    if start ~= 0 then
-      return (start + duration - GetTime())
+    local currentCharges, maxCharges, cooldownStart, cooldownDuration = GetSpellCharges(spell)
+    if cooldownStart and cooldownDuration then
+      return (cooldownStart + cooldownDuration - GetTime())
     end
-    return 0
+    return 9999
 end)
 
 PossiblyEngine.condition.register("spell.usable", function(target, spell)
@@ -904,7 +952,11 @@ PossiblyEngine.condition.register("spell.casted", function(target, spell)
 end)
 
 PossiblyEngine.condition.register("spell.charges", function(target, spell)
-    return select(1, GetSpellCharges(spell))
+    local currentCharges, maxCharges, cooldownStart, cooldownDuration = GetSpellCharges(spell)
+    if currentCharges then
+      return currentCharges
+    end
+    return 0
 end)
 
 PossiblyEngine.condition.register("spell.cd", function(target, spell)

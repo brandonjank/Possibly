@@ -465,47 +465,63 @@ PossiblyEngine.condition.register("balance.moon", function(target)
     return false
 end)
 
---[[
-PossiblyEngine.condition.register("balance.eclipsechange", function(target, spell)
-  -- Eclipse power goes from -100 to 100, and its use as solar or lunar power is determined by what buff is active on the player.
-  -- Buffs activate at -100 and 11 respectively and remain on the player until the power crosses the 0 threshold.
-  -- moon == moving toward Lunar Eclipse
-  -- sun == moving toward Solar Eclipse
-  -- /script print("Eclipse direction: "..GetEclipseDirection().."  Eclipse: "..UnitPower("player", 8))
-    if not spell then return false end
-    local direction = GetEclipseDirection()
-    if not direction or direction == "none" then return false end
-    local name, _, _, casttime = GetSpellInfo(spell)
-    if name and casttime then casttime = casttime / 1000 else return false end
+PossiblyEngine.condition.register("balance.eclipse", function(target)
     local eclipse = UnitPower("player", 8)
-    local timetozero = 0
-    local eclipsepersecond = 5
+    return eclipse
+end)
+
+PossiblyEngine.condition.register("balance.lunarmax", function(target)
+    if UnitBuff("player", "Lunar Peak") then return 0 end
+    local direction = GetEclipseDirection()
+    local eclipse = UnitPower("player", 8)
+    if not direction or not eclipse or direction == "none" then return 99 end
+    local eclipsepersecond = 10
 
     -- Euphoria Check
     local group = GetActiveSpecGroup()
     local _, _, _, selected, active = GetTalentInfo(7, 1, group)
     if selected and active then
-      eclipsepersecond = 10
+      eclipsepersecond = 20
     end
 
-    if direction == "moon" and eclipse > 0 then
-      timetozero = eclipse / eclipsepersecond
-    elseif direction == "moon" and eclipse <= 0 then
-      timetozero = ( 100 + ( 100 - math.abs(eclipse) ) ) / eclipsepersecond
-    elseif direction == "sun" and eclipse >= 0 then
-      timetozero = ( 100 + ( 100 - eclipse ) ) / eclipsepersecond
+    if direction == "moon" and eclipse < 0 then
+      return (100 - abs(eclipse)) / eclipsepersecond
+    elseif direction == "moon" and eclipse >= 0 then
+      return (100 + eclipse) / eclipsepersecond
     elseif direction == "sun" and eclipse < 0 then
-      timetozero = math.abs(eclipse) / eclipsepersecond
+      return (300 + abs(eclipse)) / eclipsepersecond
+    elseif direction == "sun" and eclipse >= 0 then
+      return (200 + (100 - eclipse)) / eclipsepersecond
     end
 
-    if timetozero > casttime then return true end
-    return false
+    return 99
 end)
-]]--
 
-PossiblyEngine.condition.register("balance.eclipse", function(target)
+PossiblyEngine.condition.register("balance.solarmax", function(target)
+    if UnitBuff("player", "Solar Peak") then return 0 end
+    local direction = GetEclipseDirection()
     local eclipse = UnitPower("player", 8)
-    return eclipse
+    if not direction or not eclipse or direction == "none" then return 99 end
+    local eclipsepersecond = 10
+
+    -- Euphoria Check
+    local group = GetActiveSpecGroup()
+    local _, _, _, selected, active = GetTalentInfo(7, 1, group)
+    if selected and active then
+      eclipsepersecond = 20
+    end
+
+    if direction == "sun" and eclipse < 0 then
+      return (100 + abs(eclipse)) / eclipsepersecond
+    elseif direction == "sun" and eclipse >= 0 then
+      return (100 - eclipse) / eclipsepersecond
+    elseif direction == "moon" and eclipse < 0 then
+      return (200 + (100 - abs(eclipse))) / eclipsepersecond
+    elseif direction == "moon" and eclipse >= 0 then
+      return (300 + eclipse) / eclipsepersecond
+    end
+
+    return 99
 end)
 
 PossiblyEngine.condition.register("moving", function(target)

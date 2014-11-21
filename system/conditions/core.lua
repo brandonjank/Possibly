@@ -327,10 +327,9 @@ PossiblyEngine.condition.register("target", function(target, spell)
     return ( UnitGUID(target .. "target") == UnitGUID(spell) )
 end)
 
---[[
-PossiblyEngine.condition.register("player", function(target, spell)
-    return UnitName('player') == UnitName(target)
-end)--]]
+PossiblyEngine.condition.register("istheplayer", function(target)
+    return UnitIsUnit("player", target)
+end)
 
 PossiblyEngine.condition.register("player", function (target)
     return UnitIsPlayer(target)
@@ -1289,5 +1288,13 @@ PossiblyEngine.condition.register("spell.wontcap", function(unit, spell)
 end)
 
 PossiblyEngine.condition.register("indoors", function(unit)
-    return IsIndoors()
+    return IsIndoors() -- Returns true if you are indoors. Returns false for indoor areas where you can still mount.
+end)
+
+PossiblyEngine.condition.register("outdoors", function(unit)
+    return IsOutdoors() -- Returns true if you are outdoors. Returns true for indoor areas where you can still mount.
+end)
+
+PossiblyEngine.condition.register("flying", function(unit)
+    return IsFlying() -- Returns true if you are flying.
 end)

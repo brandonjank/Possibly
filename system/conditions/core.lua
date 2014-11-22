@@ -18,6 +18,7 @@ local rangeCheck = LibStub("LibRangeCheck-2.0")
 local LibDispellable = LibStub("LibDispellable-1.0")
 local LibBoss = LibStub("LibBoss-1.0")
 
+-- local buff, _, _, count, _, duration, expires, caster = UnitBuff(target, spell)
 local UnitBuff = function(target, spell, owner)
     local buff, count, caster, expires, spellID
     if tonumber(spell) then
@@ -37,6 +38,7 @@ local UnitBuff = function(target, spell, owner)
     return buff, count, expires, caster
 end
 
+-- local debuff, _, _, count, _, duration, expires, caster = UnitDebuff(target, spell)
 local UnitDebuff = function(target, spell, owner)
     local debuff, count, caster, expires, spellID
     if tonumber(spell) then
@@ -65,7 +67,7 @@ end)
 
 PossiblyEngine.condition.register("buff", function(target, spell)
     local buff,_,_,caster = UnitBuff(target, spell)
-    if not not buff and (caster == 'player' or caster == 'pet') then
+    if buff and (caster == 'player' or caster == 'pet') then
     return true
     end
     return false
@@ -79,7 +81,7 @@ PossiblyEngine.condition.register("buff.any", function(target, spell)
     return false
 end)
 
-PossiblyEngine.condition.register("buff.count", function(target, spell)
+PossiblyEngine.condition.register("buff.count", function(target, spell) -- returns 0 for count if buff doesnt stack
     local buff,count,_,caster = UnitBuff(target, spell)
     if not not buff and (caster == 'player' or caster == 'pet') then
     return count
@@ -103,7 +105,7 @@ PossiblyEngine.condition.register("debuff.any", function(target, spell)
     return false
 end)
 
-PossiblyEngine.condition.register("debuff.count", function(target, spell)
+PossiblyEngine.condition.register("debuff.count", function(target, spell) -- returns 0 for count if buff doesnt stack
     local debuff,count,_,caster = UnitDebuff(target, spell)
     if not not debuff and (caster == 'player' or caster == 'pet') then
     return count
@@ -112,11 +114,11 @@ PossiblyEngine.condition.register("debuff.count", function(target, spell)
 end)
 
 PossiblyEngine.condition.register("debuff.remains", function(target, spell)
-  local debuff,_,expires,caster = UnitDebuff(target, spell)
-  if not not debuff and (caster == 'player' or caster == 'pet') then
-    return (expires - GetTime())
-  end
-  return 0
+    local debuff,_,expires,caster = UnitDebuff(target, spell)
+    if not not debuff and (caster == 'player' or caster == 'pet') then
+      return (expires - GetTime())
+    end
+    return 0
 end)
 
 -- TODO: should be the initial duration when cast.
@@ -278,6 +280,10 @@ end)
 
 PossiblyEngine.condition.register("chi", function(target, spell)
     return UnitPower(target, SPELL_POWER_CHI)
+end)
+
+PossiblyEngine.condition.register("chimaxchi", function(target, spell)
+    return UnitPowerMax(target, SPELL_POWER_CHI) - UnitPower(target, SPELL_POWER_CHI)
 end)
 
 PossiblyEngine.condition.register("demonicfury", function(target, spell)

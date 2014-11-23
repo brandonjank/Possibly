@@ -1313,3 +1313,14 @@ PossiblyEngine.condition.register("isfriendlynpc", function(unit)
     end
     return false
 end)
+
+PossiblyEngine.condition.register("spellsteal", function(unit)
+    for i=1,40 do
+      local name, _, _, _, _, _, _, _, isStealable = UnitAura(unit, i);
+      if isStealable then
+        print("Casting Spellsteal on "..unit..". Found "..name.."!")
+        return true
+      end
+    end
+    return false
+end)

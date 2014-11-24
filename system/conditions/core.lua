@@ -1324,3 +1324,11 @@ PossiblyEngine.condition.register("spellsteal", function(unit)
     end
     return false
 end)
+
+PossiblyEngine.condition.register("twohand", function(unit)
+  return IsEquippedItemType("Two-Hand")
+end)
+
+PossiblyEngine.condition.register("onehand", function(unit)
+  return IsEquippedItemType("One-Hand")
+end)

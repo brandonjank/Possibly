@@ -76,7 +76,7 @@ PossiblyEngine.parser.can_cast =  function(spell, unit, stopCasting)
 
   if unit ~= "player" and UnitExists(unit) and UnitIsVisible(unit) and LineOfSight then
     local unitName, _ = UnitName(unit)
-    if unitName ~= "Ragewing the Untamed" and not LineOfSight('player', unit) then
+    if unitName ~= "Ragewing the Untamed" and unitName ~= "Solar Zealot" and not LineOfSight('player', unit) then
       return false
     end
   end

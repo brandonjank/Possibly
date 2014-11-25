@@ -654,6 +654,8 @@ PossiblyEngine.condition.register("runicpower", function(target, spell)
     return UnitPower(target, SPELL_POWER_RUNIC_POWER)
 end)
 
+
+-- capitalizing the first letter of the rune type expression (e.g., Blood) will evaluate the number of ready base type runes, and additionally, the number of any ready death runes.
 PossiblyEngine.condition.register("runes.count", function(target, rune)
     rune = string.lower(rune)
     if rune == 'frost' then
@@ -1303,6 +1305,10 @@ end)
 
 PossiblyEngine.condition.register("flying", function(unit)
     return IsFlying() -- Returns true if you are flying.
+end)
+
+PossiblyEngine.condition.register("mounted", function(unit)
+    return IsMounted()
 end)
 
 PossiblyEngine.condition.register("isfriendlynpc", function(unit)
